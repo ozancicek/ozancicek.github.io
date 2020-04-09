@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>artan.state package &#8212; artan 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="artan.smoother package" href="artan.smoother.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="artan-state-package">
+<h1>artan.state package<a class="headerlink" href="#artan-state-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-artan.state.stateful_transformer">
+<span id="artan-state-stateful-transformer-module"></span><h2>artan.state.stateful_transformer module<a class="headerlink" href="#module-artan.state.stateful_transformer" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="artan.state.stateful_transformer.HasEventTimeCol">
+<em class="property">class </em><code class="sig-prename descclassname">artan.state.stateful_transformer.</code><code class="sig-name descname">HasEventTimeCol</code><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#HasEventTimeCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.HasEventTimeCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for event time column.</p>
+<dl class="py attribute">
+<dt id="artan.state.stateful_transformer.HasEventTimeCol.eventTimeCol">
+<code class="sig-name descname">eventTimeCol</code><em class="property"> = Param(parent='undefined', name='eventTimeCol', doc='Column marking the event time of the received measurements')</em><a class="headerlink" href="#artan.state.stateful_transformer.HasEventTimeCol.eventTimeCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="artan.state.stateful_transformer.HasEventTimeCol.getEventTimeCol">
+<code class="sig-name descname">getEventTimeCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#HasEventTimeCol.getEventTimeCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.HasEventTimeCol.getEventTimeCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of event time column or its default value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.state.stateful_transformer.HasStateKeyCol">
+<em class="property">class </em><code class="sig-prename descclassname">artan.state.stateful_transformer.</code><code class="sig-name descname">HasStateKeyCol</code><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#HasStateKeyCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.HasStateKeyCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for state key column.</p>
+<dl class="py method">
+<dt id="artan.state.stateful_transformer.HasStateKeyCol.getStateKeyCol">
+<code class="sig-name descname">getStateKeyCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#HasStateKeyCol.getStateKeyCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.HasStateKeyCol.getStateKeyCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of state key column or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.state.stateful_transformer.HasStateKeyCol.stateKeyCol">
+<code class="sig-name descname">stateKeyCol</code><em class="property"> = Param(parent='undefined', name='stateKeyCol', doc='State key column. State keys uniquely identify the each state in stateful transformers,thus controlling the number of states and the degree of parallelization')</em><a class="headerlink" href="#artan.state.stateful_transformer.HasStateKeyCol.stateKeyCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.state.stateful_transformer.HasStateTimeoutDuration">
+<em class="property">class </em><code class="sig-prename descclassname">artan.state.stateful_transformer.</code><code class="sig-name descname">HasStateTimeoutDuration</code><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#HasStateTimeoutDuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.HasStateTimeoutDuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for state timeout duration.</p>
+<dl class="py method">
+<dt id="artan.state.stateful_transformer.HasStateTimeoutDuration.getStateTimeoutDuration">
+<code class="sig-name descname">getStateTimeoutDuration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#HasStateTimeoutDuration.getStateTimeoutDuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.HasStateTimeoutDuration.getStateTimeoutDuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of state timeout duration or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.state.stateful_transformer.HasStateTimeoutDuration.stateTimeoutDuration">
+<code class="sig-name descname">stateTimeoutDuration</code><em class="property"> = Param(parent='undefined', name='stateTimeoutDuration', doc='Duration to wait before timing out the state')</em><a class="headerlink" href="#artan.state.stateful_transformer.HasStateTimeoutDuration.stateTimeoutDuration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.state.stateful_transformer.HasStateTimeoutMode">
+<em class="property">class </em><code class="sig-prename descclassname">artan.state.stateful_transformer.</code><code class="sig-name descname">HasStateTimeoutMode</code><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#HasStateTimeoutMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.HasStateTimeoutMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for state timeout mode for clearing states without updates, one of “none”, “process” or “event”.</p>
+<dl class="py method">
+<dt id="artan.state.stateful_transformer.HasStateTimeoutMode.getTimeoutMode">
+<code class="sig-name descname">getTimeoutMode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#HasStateTimeoutMode.getTimeoutMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.HasStateTimeoutMode.getTimeoutMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of timeout mode or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.state.stateful_transformer.HasStateTimeoutMode.timeoutMode">
+<code class="sig-name descname">timeoutMode</code><em class="property"> = Param(parent='undefined', name='timeoutMode', doc=&quot;Timeout mode for clearing the states that didn't receive measurements.&quot;)</em><a class="headerlink" href="#artan.state.stateful_transformer.HasStateTimeoutMode.timeoutMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.state.stateful_transformer.HasWatermarkDuration">
+<em class="property">class </em><code class="sig-prename descclassname">artan.state.stateful_transformer.</code><code class="sig-name descname">HasWatermarkDuration</code><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#HasWatermarkDuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.HasWatermarkDuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for watermark duration.</p>
+<dl class="py method">
+<dt id="artan.state.stateful_transformer.HasWatermarkDuration.getWatermarkDuration">
+<code class="sig-name descname">getWatermarkDuration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#HasWatermarkDuration.getWatermarkDuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.HasWatermarkDuration.getWatermarkDuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of watermark duration or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.state.stateful_transformer.HasWatermarkDuration.watermarkDuration">
+<code class="sig-name descname">watermarkDuration</code><em class="property"> = Param(parent='undefined', name='watermarkDuration', doc='Watermark duration')</em><a class="headerlink" href="#artan.state.stateful_transformer.HasWatermarkDuration.watermarkDuration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.state.stateful_transformer.StatefulTransformer">
+<em class="property">class </em><code class="sig-prename descclassname">artan.state.stateful_transformer.</code><code class="sig-name descname">StatefulTransformer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_obj</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#StatefulTransformer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.StatefulTransformer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.wrapper.JavaTransformer</span></code>, <a class="reference internal" href="#artan.state.stateful_transformer.HasStateKeyCol" title="artan.state.stateful_transformer.HasStateKeyCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.state.stateful_transformer.HasStateKeyCol</span></code></a>, <a class="reference internal" href="#artan.state.stateful_transformer.HasEventTimeCol" title="artan.state.stateful_transformer.HasEventTimeCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.state.stateful_transformer.HasEventTimeCol</span></code></a>, <a class="reference internal" href="#artan.state.stateful_transformer.HasWatermarkDuration" title="artan.state.stateful_transformer.HasWatermarkDuration"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.state.stateful_transformer.HasWatermarkDuration</span></code></a>, <a class="reference internal" href="#artan.state.stateful_transformer.HasStateTimeoutDuration" title="artan.state.stateful_transformer.HasStateTimeoutDuration"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.state.stateful_transformer.HasStateTimeoutDuration</span></code></a>, <a class="reference internal" href="#artan.state.stateful_transformer.HasStateTimeoutMode" title="artan.state.stateful_transformer.HasStateTimeoutMode"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.state.stateful_transformer.HasStateTimeoutMode</span></code></a></p>
+<p>Base mixin for stateful transformations</p>
+<dl class="py method">
+<dt id="artan.state.stateful_transformer.StatefulTransformer.setEventTimeCol">
+<code class="sig-name descname">setEventTimeCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#StatefulTransformer.setEventTimeCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.StatefulTransformer.setEventTimeCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the event time column in the input DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String, column name of the eventTime timestamp</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>StatefulTransformer</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.state.stateful_transformer.StatefulTransformer.setStateKeyCol">
+<code class="sig-name descname">setStateKeyCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#StatefulTransformer.setStateKeyCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.StatefulTransformer.setStateKeyCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the state key column. Each value in the column should uniquely identify a stateful transformer. Each
+unique value will result in a separate state.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.state.stateful_transformer.StatefulTransformer.setStateTimeoutDuration">
+<code class="sig-name descname">setStateTimeoutDuration</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#StatefulTransformer.setStateTimeoutDuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.StatefulTransformer.setStateTimeoutDuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the state timeout duration for all states, only valid when state timeout mode is not ‘none’.</p>
+<p>Must be a valid duration string, such as ‘10 minutes’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String, duration specifying state timeout</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>StatefulTransformer</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.state.stateful_transformer.StatefulTransformer.setStateTimeoutMode">
+<code class="sig-name descname">setStateTimeoutMode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#StatefulTransformer.setStateTimeoutMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.StatefulTransformer.setStateTimeoutMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the state timeout mode. Supported values are ‘none’, ‘process’ and ‘event’. Enabling state timeout will
+clear the state after a certain timeout duration which can be set. If a state receives measurements after
+it times out, the state will be initialized as if it received no measurements.</p>
+<ul class="simple">
+<li><p>‘none’: No state timeout, state is kept indefinitely.</p></li>
+<li><dl class="simple">
+<dt>‘process’: Process time based state timeout, state will be cleared if no measurements are received for</dt><dd><p>a duration based on processing time. Effects all states. Timeout duration must be set with
+setStateTimeoutDuration.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘event’: Event time based state timeout, state will be cleared if no measurements are recieved for a duration</dt><dd><p>based on event time determined by watermark. Effects all states. Timeout duration must be set with
+setStateTimeoutDuration. Additionally, event time column and it’s watermark duration must be set with
+setEventTimeCol and setWatermarkDuration. Note that this will result in dropping measurements occuring later
+than the watermark.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Default is ‘none’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String, one of ‘none’, ‘process’ or ‘event’</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>StatefulTransformer</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.state.stateful_transformer.StatefulTransformer.setWatermarkDuration">
+<code class="sig-name descname">setWatermarkDuration</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/state/stateful_transformer.html#StatefulTransformer.setWatermarkDuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.state.stateful_transformer.StatefulTransformer.setWatermarkDuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the watermark duration for all states, only valid when state timeout mode is ‘event’.
+Must be a valid duration string, such as ‘10 minutes’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String, duration specifying watermark from eventTime timestamp</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>StatefulTransformer</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">artan</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#guides">Guides</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#python-api-reference">Python API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#scaladoc">Scaladoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ekfguide.html">Online Nonlinear Regression with Extended Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lkfguide.html">Online Linear Regression with Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rlsguide.html">Online Linear Regression with Recursive Least Squares filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stateguide.html">Batch - stream compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stateguide.html#restarts">Restarts</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">artan</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="artan.html">artan package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="artan.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="artan.html#module-artan">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">artan</a><ul>
+  <li><a href="artan.html">artan package</a><ul>
+      <li>Previous: <a href="artan.smoother.html" title="previous chapter">artan.smoother package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/artan.state.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

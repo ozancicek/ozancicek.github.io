@@ -1,0 +1,874 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>artan.filter.filter_params &#8212; artan 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for artan.filter.filter_params</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Licensed to the Apache Software Foundation (ASF) under one or more</span>
+<span class="c1"># contributor license agreements.  See the NOTICE file distributed with</span>
+<span class="c1"># this work for additional information regarding copyright ownership.</span>
+<span class="c1"># The ASF licenses this file to You under the Apache License, Version 2.0</span>
+<span class="c1"># (the &quot;License&quot;); you may not use this file except in compliance with</span>
+<span class="c1"># the License.  You may obtain a copy of the License at</span>
+
+<span class="c1">#  http://www.apache.org/licenses/LICENSE-2.0</span>
+
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1">#</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.ml.param</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span><span class="p">,</span> <span class="n">TypeConverters</span>
+
+
+<div class="viewcode-block" id="HasInitialState"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasInitialState">[docs]</a><span class="k">class</span> <span class="nc">HasInitialState</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for initial state vector.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">initialState</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;initialState&quot;</span><span class="p">,</span> <span class="s2">&quot;Initial state vector&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toVector</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasInitialState</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasInitialState.getInitialState"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasInitialState.getInitialState">[docs]</a>    <span class="k">def</span> <span class="nf">getInitialState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of initial state vector or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initialState</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasInitialStateCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasInitialStateCol">[docs]</a><span class="k">class</span> <span class="nc">HasInitialStateCol</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for initial state column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">initialStateCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;initialStateCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column name for initial state vector.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasInitialStateCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasInitialStateCol.getInitialStateCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasInitialStateCol.getInitialStateCol">[docs]</a>    <span class="k">def</span> <span class="nf">getInitialStateCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of initial state column or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initialStateCol</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasInitialCovariance"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasInitialCovariance">[docs]</a><span class="k">class</span> <span class="nc">HasInitialCovariance</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param initial covariance matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">initialCovariance</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;initialCovariance&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Initial covariance matrix&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toMatrix</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasInitialCovariance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasInitialCovariance.getInitialCovariance"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasInitialCovariance.getInitialCovariance">[docs]</a>    <span class="k">def</span> <span class="nf">getInitialCovariance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of initial covariance matrix or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initialCovariance</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasInitialCovarianceCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasInitialCovarianceCol">[docs]</a><span class="k">class</span> <span class="nc">HasInitialCovarianceCol</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for initial covariance column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">initialCovarianceCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;initialCovarianceCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column name for initial covariance vector.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasInitialCovarianceCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasInitialCovarianceCol.getInitialCovarianceCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasInitialCovarianceCol.getInitialCovarianceCol">[docs]</a>    <span class="k">def</span> <span class="nf">getInitialCovarianceCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of initial covariance column or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initialCovarianceCol</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasProcessModel"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasProcessModel">[docs]</a><span class="k">class</span> <span class="nc">HasProcessModel</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param process model matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">processModel</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;processModel&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Process model matrix, transitions the state to the next state when applied&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toMatrix</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasProcessModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasProcessModel.getProcessModel"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasProcessModel.getProcessModel">[docs]</a>    <span class="k">def</span> <span class="nf">getProcessModel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of process model matrix or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processModel</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasFadingFactor"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasFadingFactor">[docs]</a><span class="k">class</span> <span class="nc">HasFadingFactor</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param fading factor.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fadingFactor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;fadingFactor&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Factor controlling the weight of older measurements. With larger factor, more weights will&quot;</span> <span class="o">+</span>
+        <span class="s2">&quot;be given to recent measurements. Typically, should be really close to 1&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasFadingFactor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasFadingFactor.getFadingFactor"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasFadingFactor.getFadingFactor">[docs]</a>    <span class="k">def</span> <span class="nf">getFadingFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of fading factor or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fadingFactor</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasMeasurementModel"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMeasurementModel">[docs]</a><span class="k">class</span> <span class="nc">HasMeasurementModel</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param measurement model matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">measurementModel</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;measurementModel&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Measurement matrix, when multiplied with the state it should give the measurement vector&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toMatrix</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasMeasurementModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasMeasurementModel.getMeasurementModel"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMeasurementModel.getMeasurementModel">[docs]</a>    <span class="k">def</span> <span class="nf">getMeasurementModel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of measurement model matrix or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">measurementModel</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasProcessNoise"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasProcessNoise">[docs]</a><span class="k">class</span> <span class="nc">HasProcessNoise</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param process noise matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">processNoise</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;processNoise&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Process noise matrix&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toMatrix</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasProcessNoise</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasProcessNoise.getProcessNoise"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasProcessNoise.getProcessNoise">[docs]</a>    <span class="k">def</span> <span class="nf">getProcessNoise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of process noise matrix or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processNoise</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasMeasurementNoise"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMeasurementNoise">[docs]</a><span class="k">class</span> <span class="nc">HasMeasurementNoise</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param measurement noise matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">measurementNoise</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;measurementNoise&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Measurement noise matrix&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toMatrix</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasMeasurementNoise</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasMeasurementNoise.getMeasurementNoise"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMeasurementNoise.getMeasurementNoise">[docs]</a>    <span class="k">def</span> <span class="nf">getMeasurementNoise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of measurement noise matrix or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">measurementNoise</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasMeasurementCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMeasurementCol">[docs]</a><span class="k">class</span> <span class="nc">HasMeasurementCol</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for measurement column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">measurementCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;measurementCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column name for measurement vector. Missing measurements are allowed with nulls in the data&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasMeasurementCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasMeasurementCol.getMeasurementCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMeasurementCol.getMeasurementCol">[docs]</a>    <span class="k">def</span> <span class="nf">getMeasurementCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of measurement column or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">measurementCol</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasMeasurementModelCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMeasurementModelCol">[docs]</a><span class="k">class</span> <span class="nc">HasMeasurementModelCol</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for measurement model column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">measurementModelCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;measurementModelCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column name for specifying measurement model from input DataFrame rather than&quot;</span> <span class="o">+</span>
+        <span class="s2">&quot;a constant measurement model for all filters&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasMeasurementModelCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasMeasurementModelCol.getMeasurementModelCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMeasurementModelCol.getMeasurementModelCol">[docs]</a>    <span class="k">def</span> <span class="nf">getMeasurementModelCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of measurement model column or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">measurementModelCol</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasMeasurementNoiseCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMeasurementNoiseCol">[docs]</a><span class="k">class</span> <span class="nc">HasMeasurementNoiseCol</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for measurement noise column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">measurementNoiseCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;measurementNoiseCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column name for specifying measurement noise from input DataFrame rather than&quot;</span> <span class="o">+</span>
+        <span class="s2">&quot;a constant measurement noise for all filters&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasMeasurementNoiseCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasMeasurementNoiseCol.getMeasurementNoiseCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMeasurementNoiseCol.getMeasurementNoiseCol">[docs]</a>    <span class="k">def</span> <span class="nf">getMeasurementNoiseCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of measurement noise column or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">measurementNoiseCol</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasProcessModelCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasProcessModelCol">[docs]</a><span class="k">class</span> <span class="nc">HasProcessModelCol</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for process model column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">processModelCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;processModelCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column name for specifying process model from input DataFrame rather than&quot;</span> <span class="o">+</span>
+        <span class="s2">&quot;a constant measurement model for all filters&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasProcessModelCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasProcessModelCol.getProcessModelCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasProcessModelCol.getProcessModelCol">[docs]</a>    <span class="k">def</span> <span class="nf">getProcessModelCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of process model column or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processModelCol</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasProcessNoiseCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasProcessNoiseCol">[docs]</a><span class="k">class</span> <span class="nc">HasProcessNoiseCol</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for process noise column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">processNoiseCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;processNoiseCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column name for specifying process noise from input DataFrame rather than&quot;</span> <span class="o">+</span>
+        <span class="s2">&quot;a constant measurement noise for all filters&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasProcessNoiseCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasProcessNoiseCol.getProcessNoiseCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasProcessNoiseCol.getProcessNoiseCol">[docs]</a>    <span class="k">def</span> <span class="nf">getProcessNoiseCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of process noise column or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processNoiseCol</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasControlCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasControlCol">[docs]</a><span class="k">class</span> <span class="nc">HasControlCol</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for control column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">controlCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;controlCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column name for specifying control vector&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasControlCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasControlCol.getControlCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasControlCol.getControlCol">[docs]</a>    <span class="k">def</span> <span class="nf">getControlCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of control column or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controlCol</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasControlFunctionCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasControlFunctionCol">[docs]</a><span class="k">class</span> <span class="nc">HasControlFunctionCol</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for control function column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">controlFunctionCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;controlFunctionCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column name for specifying control matrix&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasControlFunctionCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasControlFunctionCol.getControlFunctionCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasControlFunctionCol.getControlFunctionCol">[docs]</a>    <span class="k">def</span> <span class="nf">getControlFunctionCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of control function column or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controlFunctionCol</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasCalculateMahalanobis"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasCalculateMahalanobis">[docs]</a><span class="k">class</span> <span class="nc">HasCalculateMahalanobis</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for enabling mahalanobis calculation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">calculateMahalanobis</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;calculateMahalanobis&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;When true, mahalanobis distance of residual will be calculated &amp; added to output DataFrame.&quot;</span> <span class="o">+</span>
+        <span class="s2">&quot;Default is false.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasCalculateMahalanobis</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasCalculateMahalanobis.getCalculateMahalanobis"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasCalculateMahalanobis.getCalculateMahalanobis">[docs]</a>    <span class="k">def</span> <span class="nf">getCalculateMahalanobis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of mahalanobis calcuation flag.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calculateMahalanobis</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasCalculateLoglikelihood"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasCalculateLoglikelihood">[docs]</a><span class="k">class</span> <span class="nc">HasCalculateLoglikelihood</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for enabling loglikelihood calculation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">calculateLoglikelihood</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;calculateLoglikelihood&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;When true, loglikelihood of residual will be calculated &amp; added to output DataFrame. Default is false&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasCalculateLoglikelihood</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasCalculateLoglikelihood.getCalculateLoglikelihood"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasCalculateLoglikelihood.getCalculateLoglikelihood">[docs]</a>    <span class="k">def</span> <span class="nf">getCalculateLoglikelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of loglikelihood calculation flag.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calculateLoglikelihood</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasOutputSystemMatrices"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasOutputSystemMatrices">[docs]</a><span class="k">class</span> <span class="nc">HasOutputSystemMatrices</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for enabling the output of system matrices along with the state.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">outputSystemMatrices</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;outputSystemMatrices&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;When true, the system matrices will be added to output DataFrame. Default is false&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasOutputSystemMatrices</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasOutputSystemMatrices.getOutputSystemMatrices"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasOutputSystemMatrices.getOutputSystemMatrices">[docs]</a>    <span class="k">def</span> <span class="nf">getOutputSystemMatrices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of loglikelihood calculation flag.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputSystemMatrices</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasCalculateSlidingLikelihood"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasCalculateSlidingLikelihood">[docs]</a><span class="k">class</span> <span class="nc">HasCalculateSlidingLikelihood</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin param for enabling sliding likelihood calculation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">calculateSlidingLikelihood</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;calculateSlidingLikelihood&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;When true, sliding likelihood sum of residual will be calculated &amp; added to output DataFrame. Default is false&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasCalculateSlidingLikelihood</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasCalculateSlidingLikelihood.getCalculateSlidingLikelihood"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasCalculateSlidingLikelihood.getCalculateSlidingLikelihood">[docs]</a>    <span class="k">def</span> <span class="nf">getCalculateSlidingLikelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of sliding likelihood calculation flag</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calculateSlidingLikelihood</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasSlidingLikelihoodWindow"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasSlidingLikelihoodWindow">[docs]</a><span class="k">class</span> <span class="nc">HasSlidingLikelihoodWindow</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin param for sliding likelihood window duration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">slidingLikelihoodWindow</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;slidingLikelihoodWindow&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Number of consecutive measurements to include in the total likelihood calculation&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasSlidingLikelihoodWindow</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasSlidingLikelihoodWindow.getSlidingLikelihoodWindow"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasSlidingLikelihoodWindow.getSlidingLikelihoodWindow">[docs]</a>    <span class="k">def</span> <span class="nf">getSlidingLikelihoodWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of sliding likelihood window</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slidingLikelihoodWindow</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasMultipleModelMeasurementWindowDuration"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMultipleModelMeasurementWindowDuration">[docs]</a><span class="k">class</span> <span class="nc">HasMultipleModelMeasurementWindowDuration</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+
+    <span class="n">multipleModelMeasurementWindowDuration</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;multipleModelMeasurementWindowDuration&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Window duration for grouping measurements in same window for MMAE filter aggregation&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasMultipleModelMeasurementWindowDuration</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasMultipleModelMeasurementWindowDuration.getMultipleModelMeasurementWindowDuration"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMultipleModelMeasurementWindowDuration.getMultipleModelMeasurementWindowDuration">[docs]</a>    <span class="k">def</span> <span class="nf">getMultipleModelMeasurementWindowDuration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of mmae measureent window duration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">multipleModelMeasurementWindowDuration</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasMultipleModelAdaptiveEstimationEnabled"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMultipleModelAdaptiveEstimationEnabled">[docs]</a><span class="k">class</span> <span class="nc">HasMultipleModelAdaptiveEstimationEnabled</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+
+    <span class="n">multipleModelAdaptiveEstimationEnabled</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;multipleModelAdaptiveEstimationEnabled&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Flag for enabling  Multiple Model Adaptive Estimation (MMAE) output mode. When enabled,&quot;</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span> <span class="o">+</span>
+        <span class="s2">&quot;MMAE mode outputs a single state estimate from the output of all kalman states of the transformer.&quot;</span> <span class="o">+</span>
+        <span class="s2">&quot;States are weighted based on their sliding likelihood&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasMultipleModelAdaptiveEstimationEnabled</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasMultipleModelAdaptiveEstimationEnabled.getMultipleModelAdaptiveEstimationEnabled"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.HasMultipleModelAdaptiveEstimationEnabled.getMultipleModelAdaptiveEstimationEnabled">[docs]</a>    <span class="k">def</span> <span class="nf">getMultipleModelAdaptiveEstimationEnabled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of MMAE output mode flag</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">multipleModelAdaptiveEstimationEnabled</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="KalmanFilterParams"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams">[docs]</a><span class="k">class</span> <span class="nc">KalmanFilterParams</span><span class="p">(</span><span class="n">HasInitialState</span><span class="p">,</span> <span class="n">HasInitialCovariance</span><span class="p">,</span> <span class="n">HasInitialStateCol</span><span class="p">,</span>
+                         <span class="n">HasInitialCovarianceCol</span><span class="p">,</span> <span class="n">HasProcessModel</span><span class="p">,</span> <span class="n">HasFadingFactor</span><span class="p">,</span> <span class="n">HasMeasurementModel</span><span class="p">,</span>
+                         <span class="n">HasMeasurementNoise</span><span class="p">,</span> <span class="n">HasProcessNoise</span><span class="p">,</span> <span class="n">HasMeasurementCol</span><span class="p">,</span>
+                         <span class="n">HasMeasurementModelCol</span><span class="p">,</span> <span class="n">HasMeasurementNoiseCol</span><span class="p">,</span> <span class="n">HasProcessModelCol</span><span class="p">,</span>
+                         <span class="n">HasProcessNoiseCol</span><span class="p">,</span> <span class="n">HasControlCol</span><span class="p">,</span> <span class="n">HasControlFunctionCol</span><span class="p">,</span>
+                         <span class="n">HasCalculateMahalanobis</span><span class="p">,</span> <span class="n">HasCalculateLoglikelihood</span><span class="p">,</span>
+                         <span class="n">HasOutputSystemMatrices</span><span class="p">,</span> <span class="n">HasCalculateSlidingLikelihood</span><span class="p">,</span>
+                         <span class="n">HasSlidingLikelihoodWindow</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for kalman filter parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="KalmanFilterParams.setInitialState"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setInitialState">[docs]</a>    <span class="k">def</span> <span class="nf">setInitialState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the initial state vector with size (stateSize).</span>
+
+<span class="sd">        It will be applied to all states. If the state timeouts and starts receiving</span>
+<span class="sd">        measurements after timeout, it will again start from this initial state vector. Default is zero.</span>
+
+<span class="sd">        Note that if this parameter is set through here, it will result in same initial state for all filters.</span>
+<span class="sd">        For different initial states across filters, set the dataframe column for corresponding to initial state</span>
+<span class="sd">        with setInitialStateCol.</span>
+
+<span class="sd">        :param value: pyspark.ml.linalg.Vector with size (stateSize)</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">initialState</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setInitialStateCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setInitialStateCol">[docs]</a>    <span class="k">def</span> <span class="nf">setInitialStateCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the column corresponding to initial state vector. Overrides setInitialState setting.</span>
+
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">initialStateCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setInitialCovariance"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setInitialCovariance">[docs]</a>    <span class="k">def</span> <span class="nf">setInitialCovariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the initial covariance matrix with dimensions (stateSize, stateSize)</span>
+
+<span class="sd">        It will be applied to all states. If the state timeouts and starts receiving</span>
+<span class="sd">        measurements after timeout, it will again start from this initial covariance vector. Default is identity matrix.</span>
+<span class="sd">        :param value: pyspark.ml.linalg.Matrix with dimensions (stateSize, stateSize)</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">initialCovariance</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setInitialCovarianceCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setInitialCovarianceCol">[docs]</a>    <span class="k">def</span> <span class="nf">setInitialCovarianceCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the column corresponding to initial covariance matrix. Overrides setInitialCovariance setting.</span>
+
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">initialCovarianceCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setFadingFactor"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setFadingFactor">[docs]</a>    <span class="k">def</span> <span class="nf">setFadingFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fading factor for giving more weights to more recent measurements. If needed, it should be greater than one.</span>
+<span class="sd">        Typically set around 1.01 ~ 1.05. Default is 1.0, which will result in equally weighted measurements.</span>
+
+<span class="sd">        :param value: Float &gt;= 1.0</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">fadingFactor</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setProcessModel"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setProcessModel">[docs]</a>    <span class="k">def</span> <span class="nf">setProcessModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set default value for process model matrix with dimensions (stateSize, stateSize) which governs</span>
+<span class="sd">        state transition.</span>
+
+<span class="sd">        Note that if this parameter is set through here, it will result in same process model for all filters &amp;</span>
+<span class="sd">        measurements. For different process models across filters or measurements, set a dataframe column for process</span>
+<span class="sd">        model from setProcessModelCol.</span>
+
+<span class="sd">        Default is identity matrix.</span>
+
+<span class="sd">        :param value: pyspark.ml.linalg.Matrix with dimensions (stateSize, stateSize)</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">processModel</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setProcessNoise"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setProcessNoise">[docs]</a>    <span class="k">def</span> <span class="nf">setProcessNoise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set default value for process noise matrix with dimensions (stateSize, stateSize).</span>
+
+<span class="sd">        Note that if this parameter is set through here, it will result in same process noise for all filters &amp;</span>
+<span class="sd">        measurements. For different process noise values across filters or measurements, set a dataframe column</span>
+<span class="sd">        for process noise from setProcessNoiseCol.</span>
+
+<span class="sd">        Default is identity matrix.</span>
+
+<span class="sd">        :param value: pyspark.ml.linalg.Matrix with dimensions (stateSize, StateSize)</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">processNoise</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setMeasurementModel"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setMeasurementModel">[docs]</a>    <span class="k">def</span> <span class="nf">setMeasurementModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set default value for measurement model matrix with dimensions (stateSize, measurementSize)</span>
+<span class="sd">        which maps states to measurement.</span>
+
+<span class="sd">        Note that if this parameter is set through here, it will result in same measurement model for all filters &amp;</span>
+<span class="sd">        measurements. For different measurement models across filters or measurements, set a dataframe column for</span>
+<span class="sd">        measurement model from setMeasurementModelCol.</span>
+
+<span class="sd">        Default value maps the first state value to measurements.</span>
+
+<span class="sd">        :param value: pyspark.ml.linalg.Matrix with dimensions (stateSize, measurementSize)</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">measurementModel</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setMeasurementNoise"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setMeasurementNoise">[docs]</a>    <span class="k">def</span> <span class="nf">setMeasurementNoise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set default value for measurement noise matrix with dimensions (measurementSize, measurementSize).</span>
+
+<span class="sd">        Note that if this parameter is set through here, it will result in same measurement noise for all filters &amp;</span>
+<span class="sd">        measurements. For different measurement noise values across filters or measurements,</span>
+<span class="sd">        set a dataframe column for measurement noise from setMeasurementNoiseCol.</span>
+
+<span class="sd">        Default is identity matrix.</span>
+
+<span class="sd">        :param value: pyspark.ml.linalg.Matrix with dimensions (measurementSize, measurementSize)</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">measurementNoise</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setMeasurementCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setMeasurementCol">[docs]</a>    <span class="k">def</span> <span class="nf">setMeasurementCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the column corresponding to measurements.</span>
+
+<span class="sd">        The vectors in the column should be of size (measurementSize). null values are allowed,</span>
+<span class="sd">        which will result in only state prediction step.</span>
+
+<span class="sd">        :param value: pyspark.ml.linalg.Vector with size measurementSize</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">measurementCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setMeasurementModelCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setMeasurementModelCol">[docs]</a>    <span class="k">def</span> <span class="nf">setMeasurementModelCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the column for input measurement model matrices</span>
+
+<span class="sd">        Measurement model matrices should have dimensions (stateSize, measurementSize)</span>
+
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">measurementModelCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setProcessModelCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setProcessModelCol">[docs]</a>    <span class="k">def</span> <span class="nf">setProcessModelCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the column for input process model matrices.</span>
+
+<span class="sd">        Process model matrices should have dimensions (stateSize, stateSize)</span>
+
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">processModelCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setProcessNoiseCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setProcessNoiseCol">[docs]</a>    <span class="k">def</span> <span class="nf">setProcessNoiseCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the column for input process noise matrices.</span>
+
+<span class="sd">        Process noise matrices should have dimensions (stateSize, stateSize)</span>
+
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">processNoiseCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setMeasurementNoiseCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setMeasurementNoiseCol">[docs]</a>    <span class="k">def</span> <span class="nf">setMeasurementNoiseCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the column for input measurement noise matrices.</span>
+
+<span class="sd">        Measurement noise matrices should have dimensions (measurementSize, measurementSize)</span>
+
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">measurementNoiseCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setControlCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setControlCol">[docs]</a>    <span class="k">def</span> <span class="nf">setControlCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the column for input control vectors.</span>
+
+<span class="sd">        Control vectors should have compatible size with control function (controlVectorSize). The product of</span>
+<span class="sd">        control matrix &amp; vector should produce a vector with stateSize. null values are allowed,</span>
+<span class="sd">        which will result in state transition without control input.</span>
+
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">controlCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setControlFunctionCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setControlFunctionCol">[docs]</a>    <span class="k">def</span> <span class="nf">setControlFunctionCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the column for input control matrices.</span>
+
+<span class="sd">        Control matrices should have dimensions (stateSize, controlVectorSize). null values are allowed, which will</span>
+<span class="sd">        result in state transition without control input</span>
+
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">controlFunctionCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setCalculateLogLikelihood"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setCalculateLogLikelihood">[docs]</a>    <span class="k">def</span> <span class="nf">setCalculateLogLikelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Optionally calculate loglikelihood of each measurement &amp; add it to output dataframe. Loglikelihood is calculated</span>
+<span class="sd">        from residual vector &amp; residual covariance matrix.</span>
+
+<span class="sd">        Not enabled by default.</span>
+
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">calculateLoglikelihood</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setCalculateMahalanobis"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setCalculateMahalanobis">[docs]</a>    <span class="k">def</span> <span class="nf">setCalculateMahalanobis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Optionally calculate mahalanobis distance metric of each measurement &amp; add it to output dataframe.</span>
+<span class="sd">        Mahalanobis distance is calculated from residual vector &amp; residual covariance matrix.</span>
+
+<span class="sd">        Not enabled by default.</span>
+
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">calculateMahalanobis</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setOutputSystemMatrices"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setOutputSystemMatrices">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputSystemMatrices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Optionally add system matrices to output dataframe returned by the transformer.</span>
+
+<span class="sd">        Default is false</span>
+
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputSystemMatrices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setCalculateSlidingLikelihood"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setCalculateSlidingLikelihood">[docs]</a>    <span class="k">def</span> <span class="nf">setCalculateSlidingLikelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Optionally calculate a sliding likelihood across consecutive measurements</span>
+
+<span class="sd">        Default is false</span>
+
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">calculateSlidingLikelihood</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KalmanFilterParams.setSlidingLikelihoodWindow"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.filter_params.KalmanFilterParams.setSlidingLikelihoodWindow">[docs]</a>    <span class="k">def</span> <span class="nf">setSlidingLikelihoodWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the param for number of consecutive measurements to include in the total likelihood calculation</span>
+
+<span class="sd">        Default is 1</span>
+
+<span class="sd">        :param value: Integer</span>
+<span class="sd">        :return: KalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">slidingLikelihoodWindow</span><span class="o">=</span><span class="n">value</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">setCalculateSlidingLikelihood</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">artan</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ekfguide.html">Online Nonlinear Regression with Extended Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lkfguide.html">Online Linear Regression with Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rlsguide.html">Online Linear Regression with Recursive Least Squares filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stateguide.html">Batch - stream compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stateguide.html#restarts">Restarts</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">artan</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>artan.smoother.linear_kalman_smoother &#8212; artan 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for artan.smoother.linear_kalman_smoother</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Licensed to the Apache Software Foundation (ASF) under one or more</span>
+<span class="c1"># contributor license agreements.  See the NOTICE file distributed with</span>
+<span class="c1"># this work for additional information regarding copyright ownership.</span>
+<span class="c1"># The ASF licenses this file to You under the Apache License, Version 2.0</span>
+<span class="c1"># (the &quot;License&quot;); you may not use this file except in compliance with</span>
+<span class="c1"># the License.  You may obtain a copy of the License at</span>
+
+<span class="c1">#  http://www.apache.org/licenses/LICENSE-2.0</span>
+
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1">#</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.ml.common</span> <span class="kn">import</span> <span class="n">inherit_doc</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.param</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span><span class="p">,</span> <span class="n">TypeConverters</span>
+
+<span class="kn">from</span> <span class="nn">artan.state</span> <span class="kn">import</span> <span class="n">StatefulTransformer</span>
+<span class="kn">from</span> <span class="nn">artan.filter.filter_params</span> <span class="kn">import</span> <span class="n">KalmanFilterParams</span>
+
+
+<div class="viewcode-block" id="HasFixedLag"><a class="viewcode-back" href="../../../artan.smoother.html#artan.smoother.linear_kalman_smoother.HasFixedLag">[docs]</a><span class="k">class</span> <span class="nc">HasFixedLag</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for fixed lag</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fixedLag</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;fixedLag&quot;</span><span class="p">,</span> <span class="s2">&quot;Fixed lag&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasFixedLag</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasFixedLag.getFixedLag"><a class="viewcode-back" href="../../../artan.smoother.html#artan.smoother.linear_kalman_smoother.HasFixedLag.getFixedLag">[docs]</a>    <span class="k">def</span> <span class="nf">getFixedLag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of fixed lag or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixedLag</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="LinearKalmanSmoother"><a class="viewcode-back" href="../../../artan.smoother.html#artan.smoother.linear_kalman_smoother.LinearKalmanSmoother">[docs]</a><span class="nd">@inherit_doc</span>
+<span class="k">class</span> <span class="nc">LinearKalmanSmoother</span><span class="p">(</span><span class="n">StatefulTransformer</span><span class="p">,</span> <span class="n">KalmanFilterParams</span><span class="p">,</span> <span class="n">HasFixedLag</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fixed lag linear kalman smoother using Rauch-Tung-Striebel method. The smoother is implemented with a</span>
+<span class="sd">    stateful spark transformer for running parallel smoother /w spark dataframes.</span>
+<span class="sd">    Transforms an input dataframe of noisy measurements to dataframe of state estimates using</span>
+<span class="sd">    stateful spark transformations, which can be used in both streaming and batch applications.</span>
+
+<span class="sd">    At a time step k and a fixed lag N, the fixed lag linear kalman smoother computes the state estimates of a linear</span>
+<span class="sd">    kalman filter based on all measurements made between step k and step k-t. For each time step k &gt;= N, the smoother</span>
+<span class="sd">    outputs an estimate for all the time steps between k and k-N. When k &lt; N, the smoother doesn&#39;t output any estimates.</span>
+<span class="sd">    As a result, the memory requirements of this filter is N times of a linear kalman filter. Since the smoother</span>
+<span class="sd">    outputs multiple estimates for a single measurement, it is advised to set event time column</span>
+<span class="sd">    of the measurements with setEventTimeCol.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stateSize</span><span class="p">,</span> <span class="n">measurementSize</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LinearKalmanSmoother</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_java_obj</span><span class="p">(</span><span class="s2">&quot;com.github.ozancicek.artan.ml.smoother.LinearKalmanSmoother&quot;</span><span class="p">,</span>
+                                            <span class="n">stateSize</span><span class="p">,</span> <span class="n">measurementSize</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LinearKalmanSmoother.setFixedLag"><a class="viewcode-back" href="../../../artan.smoother.html#artan.smoother.linear_kalman_smoother.LinearKalmanSmoother.setFixedLag">[docs]</a>    <span class="k">def</span> <span class="nf">setFixedLag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the smoother fixed lag</span>
+
+<span class="sd">        Default is 2.</span>
+<span class="sd">        :param value: Int</span>
+<span class="sd">        :return: LinearKalmanSmoother</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">fixedLag</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">artan</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ekfguide.html">Online Nonlinear Regression with Extended Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lkfguide.html">Online Linear Regression with Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rlsguide.html">Online Linear Regression with Recursive Least Squares filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stateguide.html">Batch - stream compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stateguide.html#restarts">Restarts</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">artan</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

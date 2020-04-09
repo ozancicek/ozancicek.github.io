@@ -1,0 +1,1186 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>artan.filter package &#8212; artan 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="artan.smoother package" href="artan.smoother.html" />
+    <link rel="prev" title="artan package" href="artan.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="artan-filter-package">
+<h1>artan.filter package<a class="headerlink" href="#artan-filter-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-artan.filter.filter_params">
+<span id="artan-filter-filter-params-module"></span><h2>artan.filter.filter_params module<a class="headerlink" href="#module-artan.filter.filter_params" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasCalculateLoglikelihood">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasCalculateLoglikelihood</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasCalculateLoglikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasCalculateLoglikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for enabling loglikelihood calculation.</p>
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasCalculateLoglikelihood.calculateLoglikelihood">
+<code class="sig-name descname">calculateLoglikelihood</code><em class="property"> = Param(parent='undefined', name='calculateLoglikelihood', doc='When true, loglikelihood of residual will be calculated &amp; added to output DataFrame. Default is false')</em><a class="headerlink" href="#artan.filter.filter_params.HasCalculateLoglikelihood.calculateLoglikelihood" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasCalculateLoglikelihood.getCalculateLoglikelihood">
+<code class="sig-name descname">getCalculateLoglikelihood</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasCalculateLoglikelihood.getCalculateLoglikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasCalculateLoglikelihood.getCalculateLoglikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of loglikelihood calculation flag.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasCalculateMahalanobis">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasCalculateMahalanobis</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasCalculateMahalanobis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasCalculateMahalanobis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for enabling mahalanobis calculation.</p>
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasCalculateMahalanobis.calculateMahalanobis">
+<code class="sig-name descname">calculateMahalanobis</code><em class="property"> = Param(parent='undefined', name='calculateMahalanobis', doc='When true, mahalanobis distance of residual will be calculated &amp; added to output DataFrame.Default is false.')</em><a class="headerlink" href="#artan.filter.filter_params.HasCalculateMahalanobis.calculateMahalanobis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasCalculateMahalanobis.getCalculateMahalanobis">
+<code class="sig-name descname">getCalculateMahalanobis</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasCalculateMahalanobis.getCalculateMahalanobis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasCalculateMahalanobis.getCalculateMahalanobis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of mahalanobis calcuation flag.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasCalculateSlidingLikelihood">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasCalculateSlidingLikelihood</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasCalculateSlidingLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasCalculateSlidingLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin param for enabling sliding likelihood calculation</p>
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasCalculateSlidingLikelihood.calculateSlidingLikelihood">
+<code class="sig-name descname">calculateSlidingLikelihood</code><em class="property"> = Param(parent='undefined', name='calculateSlidingLikelihood', doc='When true, sliding likelihood sum of residual will be calculated &amp; added to output DataFrame. Default is false')</em><a class="headerlink" href="#artan.filter.filter_params.HasCalculateSlidingLikelihood.calculateSlidingLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasCalculateSlidingLikelihood.getCalculateSlidingLikelihood">
+<code class="sig-name descname">getCalculateSlidingLikelihood</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasCalculateSlidingLikelihood.getCalculateSlidingLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasCalculateSlidingLikelihood.getCalculateSlidingLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of sliding likelihood calculation flag</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasControlCol">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasControlCol</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasControlCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasControlCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for control column.</p>
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasControlCol.controlCol">
+<code class="sig-name descname">controlCol</code><em class="property"> = Param(parent='undefined', name='controlCol', doc='Column name for specifying control vector')</em><a class="headerlink" href="#artan.filter.filter_params.HasControlCol.controlCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasControlCol.getControlCol">
+<code class="sig-name descname">getControlCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasControlCol.getControlCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasControlCol.getControlCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of control column or its default value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasControlFunctionCol">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasControlFunctionCol</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasControlFunctionCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasControlFunctionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for control function column.</p>
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasControlFunctionCol.controlFunctionCol">
+<code class="sig-name descname">controlFunctionCol</code><em class="property"> = Param(parent='undefined', name='controlFunctionCol', doc='Column name for specifying control matrix')</em><a class="headerlink" href="#artan.filter.filter_params.HasControlFunctionCol.controlFunctionCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasControlFunctionCol.getControlFunctionCol">
+<code class="sig-name descname">getControlFunctionCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasControlFunctionCol.getControlFunctionCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasControlFunctionCol.getControlFunctionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of control function column or its default value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasFadingFactor">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasFadingFactor</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasFadingFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasFadingFactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param fading factor.</p>
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasFadingFactor.fadingFactor">
+<code class="sig-name descname">fadingFactor</code><em class="property"> = Param(parent='undefined', name='fadingFactor', doc='Factor controlling the weight of older measurements. With larger factor, more weights willbe given to recent measurements. Typically, should be really close to 1')</em><a class="headerlink" href="#artan.filter.filter_params.HasFadingFactor.fadingFactor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasFadingFactor.getFadingFactor">
+<code class="sig-name descname">getFadingFactor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasFadingFactor.getFadingFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasFadingFactor.getFadingFactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of fading factor or its default value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasInitialCovariance">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasInitialCovariance</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasInitialCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasInitialCovariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param initial covariance matrix.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasInitialCovariance.getInitialCovariance">
+<code class="sig-name descname">getInitialCovariance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasInitialCovariance.getInitialCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasInitialCovariance.getInitialCovariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of initial covariance matrix or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasInitialCovariance.initialCovariance">
+<code class="sig-name descname">initialCovariance</code><em class="property"> = Param(parent='undefined', name='initialCovariance', doc='Initial covariance matrix')</em><a class="headerlink" href="#artan.filter.filter_params.HasInitialCovariance.initialCovariance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasInitialCovarianceCol">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasInitialCovarianceCol</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasInitialCovarianceCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasInitialCovarianceCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for initial covariance column.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasInitialCovarianceCol.getInitialCovarianceCol">
+<code class="sig-name descname">getInitialCovarianceCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasInitialCovarianceCol.getInitialCovarianceCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasInitialCovarianceCol.getInitialCovarianceCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of initial covariance column or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasInitialCovarianceCol.initialCovarianceCol">
+<code class="sig-name descname">initialCovarianceCol</code><em class="property"> = Param(parent='undefined', name='initialCovarianceCol', doc='Column name for initial covariance vector.')</em><a class="headerlink" href="#artan.filter.filter_params.HasInitialCovarianceCol.initialCovarianceCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasInitialState">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasInitialState</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasInitialState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasInitialState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for initial state vector.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasInitialState.getInitialState">
+<code class="sig-name descname">getInitialState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasInitialState.getInitialState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasInitialState.getInitialState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of initial state vector or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasInitialState.initialState">
+<code class="sig-name descname">initialState</code><em class="property"> = Param(parent='undefined', name='initialState', doc='Initial state vector')</em><a class="headerlink" href="#artan.filter.filter_params.HasInitialState.initialState" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasInitialStateCol">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasInitialStateCol</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasInitialStateCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasInitialStateCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for initial state column.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasInitialStateCol.getInitialStateCol">
+<code class="sig-name descname">getInitialStateCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasInitialStateCol.getInitialStateCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasInitialStateCol.getInitialStateCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of initial state column or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasInitialStateCol.initialStateCol">
+<code class="sig-name descname">initialStateCol</code><em class="property"> = Param(parent='undefined', name='initialStateCol', doc='Column name for initial state vector.')</em><a class="headerlink" href="#artan.filter.filter_params.HasInitialStateCol.initialStateCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasMeasurementCol">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasMeasurementCol</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMeasurementCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for measurement column.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasMeasurementCol.getMeasurementCol">
+<code class="sig-name descname">getMeasurementCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMeasurementCol.getMeasurementCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementCol.getMeasurementCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of measurement column or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasMeasurementCol.measurementCol">
+<code class="sig-name descname">measurementCol</code><em class="property"> = Param(parent='undefined', name='measurementCol', doc='Column name for measurement vector. Missing measurements are allowed with nulls in the data')</em><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementCol.measurementCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasMeasurementModel">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasMeasurementModel</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMeasurementModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param measurement model matrix.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasMeasurementModel.getMeasurementModel">
+<code class="sig-name descname">getMeasurementModel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMeasurementModel.getMeasurementModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementModel.getMeasurementModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of measurement model matrix or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasMeasurementModel.measurementModel">
+<code class="sig-name descname">measurementModel</code><em class="property"> = Param(parent='undefined', name='measurementModel', doc='Measurement matrix, when multiplied with the state it should give the measurement vector')</em><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementModel.measurementModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasMeasurementModelCol">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasMeasurementModelCol</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMeasurementModelCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementModelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for measurement model column.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasMeasurementModelCol.getMeasurementModelCol">
+<code class="sig-name descname">getMeasurementModelCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMeasurementModelCol.getMeasurementModelCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementModelCol.getMeasurementModelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of measurement model column or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasMeasurementModelCol.measurementModelCol">
+<code class="sig-name descname">measurementModelCol</code><em class="property"> = Param(parent='undefined', name='measurementModelCol', doc='Column name for specifying measurement model from input DataFrame rather thana constant measurement model for all filters')</em><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementModelCol.measurementModelCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasMeasurementNoise">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasMeasurementNoise</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMeasurementNoise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementNoise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param measurement noise matrix.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasMeasurementNoise.getMeasurementNoise">
+<code class="sig-name descname">getMeasurementNoise</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMeasurementNoise.getMeasurementNoise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementNoise.getMeasurementNoise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of measurement noise matrix or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasMeasurementNoise.measurementNoise">
+<code class="sig-name descname">measurementNoise</code><em class="property"> = Param(parent='undefined', name='measurementNoise', doc='Measurement noise matrix')</em><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementNoise.measurementNoise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasMeasurementNoiseCol">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasMeasurementNoiseCol</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMeasurementNoiseCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementNoiseCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for measurement noise column.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasMeasurementNoiseCol.getMeasurementNoiseCol">
+<code class="sig-name descname">getMeasurementNoiseCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMeasurementNoiseCol.getMeasurementNoiseCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementNoiseCol.getMeasurementNoiseCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of measurement noise column or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasMeasurementNoiseCol.measurementNoiseCol">
+<code class="sig-name descname">measurementNoiseCol</code><em class="property"> = Param(parent='undefined', name='measurementNoiseCol', doc='Column name for specifying measurement noise from input DataFrame rather thana constant measurement noise for all filters')</em><a class="headerlink" href="#artan.filter.filter_params.HasMeasurementNoiseCol.measurementNoiseCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasMultipleModelAdaptiveEstimationEnabled">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasMultipleModelAdaptiveEstimationEnabled</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMultipleModelAdaptiveEstimationEnabled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMultipleModelAdaptiveEstimationEnabled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasMultipleModelAdaptiveEstimationEnabled.getMultipleModelAdaptiveEstimationEnabled">
+<code class="sig-name descname">getMultipleModelAdaptiveEstimationEnabled</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMultipleModelAdaptiveEstimationEnabled.getMultipleModelAdaptiveEstimationEnabled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMultipleModelAdaptiveEstimationEnabled.getMultipleModelAdaptiveEstimationEnabled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of MMAE output mode flag</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasMultipleModelAdaptiveEstimationEnabled.multipleModelAdaptiveEstimationEnabled">
+<code class="sig-name descname">multipleModelAdaptiveEstimationEnabled</code><em class="property"> = Param(parent='undefined', name='multipleModelAdaptiveEstimationEnabled', doc='Flag for enabling  Multiple Model Adaptive Estimation (MMAE) output mode. When enabled,MMAE mode outputs a single state estimate from the output of all kalman states of the transformer.States are weighted based on their sliding likelihood')</em><a class="headerlink" href="#artan.filter.filter_params.HasMultipleModelAdaptiveEstimationEnabled.multipleModelAdaptiveEstimationEnabled" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasMultipleModelMeasurementWindowDuration">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasMultipleModelMeasurementWindowDuration</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMultipleModelMeasurementWindowDuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMultipleModelMeasurementWindowDuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasMultipleModelMeasurementWindowDuration.getMultipleModelMeasurementWindowDuration">
+<code class="sig-name descname">getMultipleModelMeasurementWindowDuration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasMultipleModelMeasurementWindowDuration.getMultipleModelMeasurementWindowDuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasMultipleModelMeasurementWindowDuration.getMultipleModelMeasurementWindowDuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of mmae measureent window duration</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasMultipleModelMeasurementWindowDuration.multipleModelMeasurementWindowDuration">
+<code class="sig-name descname">multipleModelMeasurementWindowDuration</code><em class="property"> = Param(parent='undefined', name='multipleModelMeasurementWindowDuration', doc='Window duration for grouping measurements in same window for MMAE filter aggregation')</em><a class="headerlink" href="#artan.filter.filter_params.HasMultipleModelMeasurementWindowDuration.multipleModelMeasurementWindowDuration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasOutputSystemMatrices">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasOutputSystemMatrices</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasOutputSystemMatrices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasOutputSystemMatrices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for enabling the output of system matrices along with the state.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasOutputSystemMatrices.getOutputSystemMatrices">
+<code class="sig-name descname">getOutputSystemMatrices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasOutputSystemMatrices.getOutputSystemMatrices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasOutputSystemMatrices.getOutputSystemMatrices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of loglikelihood calculation flag.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasOutputSystemMatrices.outputSystemMatrices">
+<code class="sig-name descname">outputSystemMatrices</code><em class="property"> = Param(parent='undefined', name='outputSystemMatrices', doc='When true, the system matrices will be added to output DataFrame. Default is false')</em><a class="headerlink" href="#artan.filter.filter_params.HasOutputSystemMatrices.outputSystemMatrices" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasProcessModel">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasProcessModel</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasProcessModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasProcessModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param process model matrix.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasProcessModel.getProcessModel">
+<code class="sig-name descname">getProcessModel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasProcessModel.getProcessModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasProcessModel.getProcessModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of process model matrix or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasProcessModel.processModel">
+<code class="sig-name descname">processModel</code><em class="property"> = Param(parent='undefined', name='processModel', doc='Process model matrix, transitions the state to the next state when applied')</em><a class="headerlink" href="#artan.filter.filter_params.HasProcessModel.processModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasProcessModelCol">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasProcessModelCol</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasProcessModelCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasProcessModelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for process model column.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasProcessModelCol.getProcessModelCol">
+<code class="sig-name descname">getProcessModelCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasProcessModelCol.getProcessModelCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasProcessModelCol.getProcessModelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of process model column or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasProcessModelCol.processModelCol">
+<code class="sig-name descname">processModelCol</code><em class="property"> = Param(parent='undefined', name='processModelCol', doc='Column name for specifying process model from input DataFrame rather thana constant measurement model for all filters')</em><a class="headerlink" href="#artan.filter.filter_params.HasProcessModelCol.processModelCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasProcessNoise">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasProcessNoise</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasProcessNoise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasProcessNoise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param process noise matrix.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasProcessNoise.getProcessNoise">
+<code class="sig-name descname">getProcessNoise</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasProcessNoise.getProcessNoise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasProcessNoise.getProcessNoise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of process noise matrix or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasProcessNoise.processNoise">
+<code class="sig-name descname">processNoise</code><em class="property"> = Param(parent='undefined', name='processNoise', doc='Process noise matrix')</em><a class="headerlink" href="#artan.filter.filter_params.HasProcessNoise.processNoise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasProcessNoiseCol">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasProcessNoiseCol</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasProcessNoiseCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasProcessNoiseCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for process noise column.</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasProcessNoiseCol.getProcessNoiseCol">
+<code class="sig-name descname">getProcessNoiseCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasProcessNoiseCol.getProcessNoiseCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasProcessNoiseCol.getProcessNoiseCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of process noise column or its default value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasProcessNoiseCol.processNoiseCol">
+<code class="sig-name descname">processNoiseCol</code><em class="property"> = Param(parent='undefined', name='processNoiseCol', doc='Column name for specifying process noise from input DataFrame rather thana constant measurement noise for all filters')</em><a class="headerlink" href="#artan.filter.filter_params.HasProcessNoiseCol.processNoiseCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.HasSlidingLikelihoodWindow">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">HasSlidingLikelihoodWindow</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasSlidingLikelihoodWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasSlidingLikelihoodWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin param for sliding likelihood window duration</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.HasSlidingLikelihoodWindow.getSlidingLikelihoodWindow">
+<code class="sig-name descname">getSlidingLikelihoodWindow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#HasSlidingLikelihoodWindow.getSlidingLikelihoodWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.HasSlidingLikelihoodWindow.getSlidingLikelihoodWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of sliding likelihood window</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="artan.filter.filter_params.HasSlidingLikelihoodWindow.slidingLikelihoodWindow">
+<code class="sig-name descname">slidingLikelihoodWindow</code><em class="property"> = Param(parent='undefined', name='slidingLikelihoodWindow', doc='Number of consecutive measurements to include in the total likelihood calculation')</em><a class="headerlink" href="#artan.filter.filter_params.HasSlidingLikelihoodWindow.slidingLikelihoodWindow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.filter.filter_params.KalmanFilterParams">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.filter_params.</code><code class="sig-name descname">KalmanFilterParams</code><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#artan.filter.filter_params.HasInitialState" title="artan.filter.filter_params.HasInitialState"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasInitialState</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasInitialCovariance" title="artan.filter.filter_params.HasInitialCovariance"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasInitialCovariance</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasInitialStateCol" title="artan.filter.filter_params.HasInitialStateCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasInitialStateCol</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasInitialCovarianceCol" title="artan.filter.filter_params.HasInitialCovarianceCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasInitialCovarianceCol</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasProcessModel" title="artan.filter.filter_params.HasProcessModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasProcessModel</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasFadingFactor" title="artan.filter.filter_params.HasFadingFactor"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasFadingFactor</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasMeasurementModel" title="artan.filter.filter_params.HasMeasurementModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasMeasurementModel</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasMeasurementNoise" title="artan.filter.filter_params.HasMeasurementNoise"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasMeasurementNoise</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasProcessNoise" title="artan.filter.filter_params.HasProcessNoise"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasProcessNoise</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasMeasurementCol" title="artan.filter.filter_params.HasMeasurementCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasMeasurementCol</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasMeasurementModelCol" title="artan.filter.filter_params.HasMeasurementModelCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasMeasurementModelCol</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasMeasurementNoiseCol" title="artan.filter.filter_params.HasMeasurementNoiseCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasMeasurementNoiseCol</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasProcessModelCol" title="artan.filter.filter_params.HasProcessModelCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasProcessModelCol</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasProcessNoiseCol" title="artan.filter.filter_params.HasProcessNoiseCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasProcessNoiseCol</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasControlCol" title="artan.filter.filter_params.HasControlCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasControlCol</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasControlFunctionCol" title="artan.filter.filter_params.HasControlFunctionCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasControlFunctionCol</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasCalculateMahalanobis" title="artan.filter.filter_params.HasCalculateMahalanobis"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasCalculateMahalanobis</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasCalculateLoglikelihood" title="artan.filter.filter_params.HasCalculateLoglikelihood"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasCalculateLoglikelihood</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasOutputSystemMatrices" title="artan.filter.filter_params.HasOutputSystemMatrices"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasOutputSystemMatrices</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasCalculateSlidingLikelihood" title="artan.filter.filter_params.HasCalculateSlidingLikelihood"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasCalculateSlidingLikelihood</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasSlidingLikelihoodWindow" title="artan.filter.filter_params.HasSlidingLikelihoodWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasSlidingLikelihoodWindow</span></code></a></p>
+<p>Mixin for kalman filter parameters</p>
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setCalculateLogLikelihood">
+<code class="sig-name descname">setCalculateLogLikelihood</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setCalculateLogLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setCalculateLogLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optionally calculate loglikelihood of each measurement &amp; add it to output dataframe. Loglikelihood is calculated
+from residual vector &amp; residual covariance matrix.</p>
+<p>Not enabled by default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setCalculateMahalanobis">
+<code class="sig-name descname">setCalculateMahalanobis</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setCalculateMahalanobis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setCalculateMahalanobis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optionally calculate mahalanobis distance metric of each measurement &amp; add it to output dataframe.
+Mahalanobis distance is calculated from residual vector &amp; residual covariance matrix.</p>
+<p>Not enabled by default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setCalculateSlidingLikelihood">
+<code class="sig-name descname">setCalculateSlidingLikelihood</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setCalculateSlidingLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setCalculateSlidingLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optionally calculate a sliding likelihood across consecutive measurements</p>
+<p>Default is false</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setControlCol">
+<code class="sig-name descname">setControlCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setControlCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setControlCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the column for input control vectors.</p>
+<p>Control vectors should have compatible size with control function (controlVectorSize). The product of
+control matrix &amp; vector should produce a vector with stateSize. null values are allowed,
+which will result in state transition without control input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setControlFunctionCol">
+<code class="sig-name descname">setControlFunctionCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setControlFunctionCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setControlFunctionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the column for input control matrices.</p>
+<p>Control matrices should have dimensions (stateSize, controlVectorSize). null values are allowed, which will
+result in state transition without control input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setFadingFactor">
+<code class="sig-name descname">setFadingFactor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setFadingFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setFadingFactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fading factor for giving more weights to more recent measurements. If needed, it should be greater than one.
+Typically set around 1.01 ~ 1.05. Default is 1.0, which will result in equally weighted measurements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Float &gt;= 1.0</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setInitialCovariance">
+<code class="sig-name descname">setInitialCovariance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setInitialCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setInitialCovariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the initial covariance matrix with dimensions (stateSize, stateSize)</p>
+<p>It will be applied to all states. If the state timeouts and starts receiving
+measurements after timeout, it will again start from this initial covariance vector. Default is identity matrix.
+:param value: pyspark.ml.linalg.Matrix with dimensions (stateSize, stateSize)
+:return: KalmanFilter</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setInitialCovarianceCol">
+<code class="sig-name descname">setInitialCovarianceCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setInitialCovarianceCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setInitialCovarianceCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the column corresponding to initial covariance matrix. Overrides setInitialCovariance setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setInitialState">
+<code class="sig-name descname">setInitialState</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setInitialState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setInitialState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the initial state vector with size (stateSize).</p>
+<p>It will be applied to all states. If the state timeouts and starts receiving
+measurements after timeout, it will again start from this initial state vector. Default is zero.</p>
+<p>Note that if this parameter is set through here, it will result in same initial state for all filters.
+For different initial states across filters, set the dataframe column for corresponding to initial state
+with setInitialStateCol.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – pyspark.ml.linalg.Vector with size (stateSize)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setInitialStateCol">
+<code class="sig-name descname">setInitialStateCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setInitialStateCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setInitialStateCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the column corresponding to initial state vector. Overrides setInitialState setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setMeasurementCol">
+<code class="sig-name descname">setMeasurementCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setMeasurementCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setMeasurementCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the column corresponding to measurements.</p>
+<p>The vectors in the column should be of size (measurementSize). null values are allowed,
+which will result in only state prediction step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – pyspark.ml.linalg.Vector with size measurementSize</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setMeasurementModel">
+<code class="sig-name descname">setMeasurementModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setMeasurementModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setMeasurementModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set default value for measurement model matrix with dimensions (stateSize, measurementSize)
+which maps states to measurement.</p>
+<p>Note that if this parameter is set through here, it will result in same measurement model for all filters &amp;
+measurements. For different measurement models across filters or measurements, set a dataframe column for
+measurement model from setMeasurementModelCol.</p>
+<p>Default value maps the first state value to measurements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – pyspark.ml.linalg.Matrix with dimensions (stateSize, measurementSize)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setMeasurementModelCol">
+<code class="sig-name descname">setMeasurementModelCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setMeasurementModelCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setMeasurementModelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the column for input measurement model matrices</p>
+<p>Measurement model matrices should have dimensions (stateSize, measurementSize)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setMeasurementNoise">
+<code class="sig-name descname">setMeasurementNoise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setMeasurementNoise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setMeasurementNoise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set default value for measurement noise matrix with dimensions (measurementSize, measurementSize).</p>
+<p>Note that if this parameter is set through here, it will result in same measurement noise for all filters &amp;
+measurements. For different measurement noise values across filters or measurements,
+set a dataframe column for measurement noise from setMeasurementNoiseCol.</p>
+<p>Default is identity matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – pyspark.ml.linalg.Matrix with dimensions (measurementSize, measurementSize)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setMeasurementNoiseCol">
+<code class="sig-name descname">setMeasurementNoiseCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setMeasurementNoiseCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setMeasurementNoiseCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the column for input measurement noise matrices.</p>
+<p>Measurement noise matrices should have dimensions (measurementSize, measurementSize)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setOutputSystemMatrices">
+<code class="sig-name descname">setOutputSystemMatrices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setOutputSystemMatrices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setOutputSystemMatrices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optionally add system matrices to output dataframe returned by the transformer.</p>
+<p>Default is false</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setProcessModel">
+<code class="sig-name descname">setProcessModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setProcessModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setProcessModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set default value for process model matrix with dimensions (stateSize, stateSize) which governs
+state transition.</p>
+<p>Note that if this parameter is set through here, it will result in same process model for all filters &amp;
+measurements. For different process models across filters or measurements, set a dataframe column for process
+model from setProcessModelCol.</p>
+<p>Default is identity matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – pyspark.ml.linalg.Matrix with dimensions (stateSize, stateSize)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setProcessModelCol">
+<code class="sig-name descname">setProcessModelCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setProcessModelCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setProcessModelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the column for input process model matrices.</p>
+<p>Process model matrices should have dimensions (stateSize, stateSize)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setProcessNoise">
+<code class="sig-name descname">setProcessNoise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setProcessNoise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setProcessNoise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set default value for process noise matrix with dimensions (stateSize, stateSize).</p>
+<p>Note that if this parameter is set through here, it will result in same process noise for all filters &amp;
+measurements. For different process noise values across filters or measurements, set a dataframe column
+for process noise from setProcessNoiseCol.</p>
+<p>Default is identity matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – pyspark.ml.linalg.Matrix with dimensions (stateSize, StateSize)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setProcessNoiseCol">
+<code class="sig-name descname">setProcessNoiseCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setProcessNoiseCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setProcessNoiseCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the column for input process noise matrices.</p>
+<p>Process noise matrices should have dimensions (stateSize, stateSize)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.filter_params.KalmanFilterParams.setSlidingLikelihoodWindow">
+<code class="sig-name descname">setSlidingLikelihoodWindow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/filter_params.html#KalmanFilterParams.setSlidingLikelihoodWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.filter_params.KalmanFilterParams.setSlidingLikelihoodWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the param for number of consecutive measurements to include in the total likelihood calculation</p>
+<p>Default is 1</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Integer</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-artan.filter.least_mean_squares_filter">
+<span id="artan-filter-least-mean-squares-filter-module"></span><h2>artan.filter.least_mean_squares_filter module<a class="headerlink" href="#module-artan.filter.least_mean_squares_filter" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.least_mean_squares_filter.</code><code class="sig-name descname">LeastMeanSquaresFilter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">featuresSize</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/least_mean_squares_filter.html#LeastMeanSquaresFilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="artan.state.html#artan.state.stateful_transformer.StatefulTransformer" title="artan.state.stateful_transformer.StatefulTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.state.stateful_transformer.StatefulTransformer</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasInitialState" title="artan.filter.filter_params.HasInitialState"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasInitialState</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.least_mean_squares_filter._HasLearningRate</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.least_mean_squares_filter._HasRegularizationConstant</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.shared.HasLabelCol</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.shared.HasFeaturesCol</span></code></p>
+<p>Normalized Least Mean Squares filter, implemented with a stateful spark Transformer for running parallel
+filters /w spark dataframes. Transforms an input dataframe of observations to a dataframe of model parameters
+using stateful spark transformations, which can be used in both streaming and batch applications.</p>
+<p>Belonging to stochastic gradient descent type of methods, LMS minimizes SSE on each measurement
+based on the expectation of steepest descending gradient.</p>
+<p>Let <img class="math" src="_images/math/cc87ee665749db882f94e0d3707eb23e39638650.png" alt="w"/> denote the model parameter vector, <img class="math" src="_images/math/9b444cf6329a14140aee8ff5a06ff30772cc1c2f.png" alt="u"/> denote the features vector,
+and <img class="math" src="_images/math/badad346f6fbe2e237af99bfbd9a93a4da53a3da.png" alt="d"/> the label corresponding to <img class="math" src="_images/math/9b444cf6329a14140aee8ff5a06ff30772cc1c2f.png" alt="u"/>. Normalized LMS computes <img class="math" src="_images/math/cc87ee665749db882f94e0d3707eb23e39638650.png" alt="w"/> at step <img class="math" src="_images/math/9630132210b904754c9ab272b61cb527d12263ca.png" alt="k"/>
+recursively by:</p>
+<div class="math">
+<p><img src="_images/math/42d3783a6a8cf8cb1120a8e920707b3590b5a0ef.png" alt="e &amp;= d - u \cdot w_{k-1} \
+
+w_k &amp;= w_{k-1} + m * e * u * (c + u \cdot u)^{-1}"/></p>
+</div><p>Where
+- <img class="math" src="_images/math/e9bc7da808d33a16a8347f27a519bd067186aa66.png" alt="m"/>: Learning rate
+- <img class="math" src="_images/math/d520a12f1579170834c32ad5f656de081bbb36fe.png" alt="c"/>: Regularization constant</p>
+<dl class="py method">
+<dt id="artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter.setFeaturesCol">
+<code class="sig-name descname">setFeaturesCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/least_mean_squares_filter.html#LeastMeanSquaresFilter.setFeaturesCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter.setFeaturesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set features column. Default is “features”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RecursiveLeastSquaresFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter.setInitialEstimate">
+<code class="sig-name descname">setInitialEstimate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/least_mean_squares_filter.html#LeastMeanSquaresFilter.setInitialEstimate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter.setInitialEstimate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set initial estimate for model parameters. Default is zero vector.</p>
+<p>Note that if this parameter is set through here, it will result in same initial estimate for all filters.
+For different initial estimates across filters, set the dataframe column for corresponding to initial estimate
+with setInitialEstimateCol.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – pyspark.ml.linalg.Vector with size (featuresSize)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RecursiveLeastSquaresFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter.setInitialEstimateCol">
+<code class="sig-name descname">setInitialEstimateCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/least_mean_squares_filter.html#LeastMeanSquaresFilter.setInitialEstimateCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter.setInitialEstimateCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the column corresponding to initial estimates
+:param value: String
+:return: RecursiveLeastSquaresFilter</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter.setLabelCol">
+<code class="sig-name descname">setLabelCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/least_mean_squares_filter.html#LeastMeanSquaresFilter.setLabelCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter.setLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set label column. Default is “label”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RecursiveLeastSquaresFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter.setLearningRate">
+<code class="sig-name descname">setLearningRate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/least_mean_squares_filter.html#LeastMeanSquaresFilter.setLearningRate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter.setLearningRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set learning rate controlling the speed of convergence. Without noise, 1.0 is optimal.</p>
+<p>Default is 1.0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Float</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RecursiveLeastSquaresFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter.setRegularizationConstant">
+<code class="sig-name descname">setRegularizationConstant</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/least_mean_squares_filter.html#LeastMeanSquaresFilter.setRegularizationConstant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.least_mean_squares_filter.LeastMeanSquaresFilter.setRegularizationConstant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set constant for regularization controlling stability. Larger values increase stability but degrade
+convergence performance. Generally set to a small constant.</p>
+<p>Default is 1.0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Float</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RecursiveLeastSquaresFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-artan.filter.linear_kalman_filter">
+<span id="artan-filter-linear-kalman-filter-module"></span><h2>artan.filter.linear_kalman_filter module<a class="headerlink" href="#module-artan.filter.linear_kalman_filter" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="artan.filter.linear_kalman_filter.LinearKalmanFilter">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.linear_kalman_filter.</code><code class="sig-name descname">LinearKalmanFilter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stateSize</span></em>, <em class="sig-param"><span class="n">measurementSize</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/linear_kalman_filter.html#LinearKalmanFilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.linear_kalman_filter.LinearKalmanFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="artan.state.html#artan.state.stateful_transformer.StatefulTransformer" title="artan.state.stateful_transformer.StatefulTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.state.stateful_transformer.StatefulTransformer</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.KalmanFilterParams" title="artan.filter.filter_params.KalmanFilterParams"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.KalmanFilterParams</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasMultipleModelAdaptiveEstimationEnabled" title="artan.filter.filter_params.HasMultipleModelAdaptiveEstimationEnabled"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasMultipleModelAdaptiveEstimationEnabled</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasMultipleModelMeasurementWindowDuration" title="artan.filter.filter_params.HasMultipleModelMeasurementWindowDuration"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasMultipleModelMeasurementWindowDuration</span></code></a></p>
+<p>Linear Kalman Filter, implemented with a stateful spark Transformer for running parallel filters /w spark
+dataframes. Transforms an input dataframe of noisy measurements to dataframe of state estimates using stateful
+spark transformations, which can be used in both streaming and batch applications.</p>
+<p>Assuming a state vector <img class="math" src="_images/math/7d7d74e7994aa052a0d73daf3b7268759632d6aa.png" alt="x_k"/> with size <cite>stateSize</cite>, and measurements vector <img class="math" src="_images/math/6b7671526711c1dfe9ef193284994bca08d77a6e.png" alt="z_k"/>
+with size <cite>measurementSize</cite>, below parameters can be specified.</p>
+<ul class="simple">
+<li><p><img class="math" src="_images/math/9eff15c2347b7f2a4696e8f705713a3a3b28944c.png" alt="F_k"/>, process model, matrix with dimensions <cite>stateSize</cite> x <cite>stateSize</cite></p></li>
+<li><p><img class="math" src="_images/math/7cdcfa63578549b38b04442eaf8bea6a4f1f65b2.png" alt="H_k"/>, measurement model, matrix with dimensions <cite>stateSize</cite> x <cite>measurementSize</cite></p></li>
+<li><p><img class="math" src="_images/math/f9ea3fce3df86fede704cd6ad3f1d66d1a8e50da.png" alt="Q_k"/>, process noise covariance, matrix with dimensions <cite>stateSize</cite> x <cite>stateSize</cite></p></li>
+<li><p><img class="math" src="_images/math/0d40fc5a1d5c6a2a791c51217c1b0fed605e82b4.png" alt="R_k"/>, measurement noise covariance, matrix with dimensions <cite>measurementSize</cite> x <cite>measurementSize</cite></p></li>
+<li><p><img class="math" src="_images/math/b7a4e1cce64b41c9f2c8f7bcbd13ea946b15d46b.png" alt="u_k"/>, optional control vector, vector with size <cite>controlSize</cite></p></li>
+<li><p><img class="math" src="_images/math/67dc86993f432cba3bcb9d3e2400871f721edade.png" alt="B_k"/>, optional control model, matrix with dimensions <cite>stateSize</cite> x <cite>controlSize</cite></p></li>
+</ul>
+<p>Linear Kalman Filter will predict &amp; estimate the state according to following state and measurement equations.</p>
+<div class="math">
+<p><img src="_images/math/5ce0ae3c49f511ebc2f1d11c81d411851c0a9d2e.png" alt="x_k &amp;= F_k x_{k-1} + B_k u_k + v_k \
+
+z_k &amp;= H_k x_k + w_k"/></p>
+</div><p>Where <img class="math" src="_images/math/7fcbb4e4868c64bdac4d460b13399e3e93725d22.png" alt="v_k"/> and <img class="math" src="_images/math/06e2625171e11e1380a9db66ddc6e2d77a204770.png" alt="w_k"/> are noise vectors drawn from zero mean,
+<img class="math" src="_images/math/f9ea3fce3df86fede704cd6ad3f1d66d1a8e50da.png" alt="Q_k"/> and <img class="math" src="_images/math/0d40fc5a1d5c6a2a791c51217c1b0fed605e82b4.png" alt="R_k"/> covariance distributions.</p>
+<p>The default values of system matrices will not give you a functioning filter, but they will be initialized
+with reasonable values given the state and measurement sizes. All of the inputs to the filter can
+be specified with a dataframe column which will allow you to have different value across measurements/filters,
+or you can specify a constant value across all measurements/filters.</p>
+<dl class="py method">
+<dt id="artan.filter.linear_kalman_filter.LinearKalmanFilter.setEnableMultipleModelAdaptiveEstimation">
+<code class="sig-name descname">setEnableMultipleModelAdaptiveEstimation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/linear_kalman_filter.html#LinearKalmanFilter.setEnableMultipleModelAdaptiveEstimation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.linear_kalman_filter.LinearKalmanFilter.setEnableMultipleModelAdaptiveEstimation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable MMAE output mode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>LinearKalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.linear_kalman_filter.LinearKalmanFilter.setMultipleModelMeasurementWindowDuration">
+<code class="sig-name descname">setMultipleModelMeasurementWindowDuration</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/linear_kalman_filter.html#LinearKalmanFilter.setMultipleModelMeasurementWindowDuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.linear_kalman_filter.LinearKalmanFilter.setMultipleModelMeasurementWindowDuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optionally set the window duration for grouping measurements in same window for MMAE filter aggregation.
+Could be used for limiting the state on streaming if event time column is set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>LinearKalmanFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-artan.filter.recursive_least_squares_filter">
+<span id="artan-filter-recursive-least-squares-filter-module"></span><h2>artan.filter.recursive_least_squares_filter module<a class="headerlink" href="#module-artan.filter.recursive_least_squares_filter" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter">
+<em class="property">class </em><code class="sig-prename descclassname">artan.filter.recursive_least_squares_filter.</code><code class="sig-name descname">RecursiveLeastSquaresFilter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">featuresSize</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/recursive_least_squares_filter.html#RecursiveLeastSquaresFilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="artan.state.html#artan.state.stateful_transformer.StatefulTransformer" title="artan.state.stateful_transformer.StatefulTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.state.stateful_transformer.StatefulTransformer</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasInitialState" title="artan.filter.filter_params.HasInitialState"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasInitialState</span></code></a>, <a class="reference internal" href="#artan.filter.filter_params.HasInitialStateCol" title="artan.filter.filter_params.HasInitialStateCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.HasInitialStateCol</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.recursive_least_squares_filter._HasForgettingFactor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.recursive_least_squares_filter._HasRegularizationMatrix</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.recursive_least_squares_filter._HasRegularizationMatrixCol</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.shared.HasLabelCol</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.shared.HasFeaturesCol</span></code></p>
+<p>Recursive formulation of least squares with exponential weighting &amp; regularization, implemented with
+a stateful spark Transformer for running parallel filters /w spark dataframes. Transforms an input dataframe
+of observations to a dataframe of model parameters using stateful spark transformations, which can be used
+in both streaming and batch applications.</p>
+<p>Let <img class="math" src="_images/math/cc87ee665749db882f94e0d3707eb23e39638650.png" alt="w"/> denote the model parameters and <img class="math" src="_images/math/0ea045026908d2428c94237cbcb529597330ef6f.png" alt="w_{est}"/> denote our prior belief. RLS minimizes following
+regularization and weighted SSE terms;</p>
+<div class="math">
+<p><img src="_images/math/4c242000733edc6e9c2546f2d968486278babf0e.png" alt="(w - w_{est}) \cdot (\lambda^{-N-1}P)^{-1} \cdot (w - w_{est}) + \sum_{k=1}^{N} \lambda^{N - k} (d_k - u_k \cdot w)"/></p>
+</div><p>Where:</p>
+<ul class="simple">
+<li><p><img class="math" src="_images/math/cefc603e5658facb747581f9567192993f21c7ab.png" alt="\lambda"/>: forgetting factor, or exponential weighting factor. Between 0 and 1.</p></li>
+<li><dl class="simple">
+<dt><img class="math" src="_images/math/c2aa3dff9bffb099e9dff196fd36aed56ec16baf.png" alt="P"/>: regularization matrix. Smaller values increseas the weight of regularization term, whereas larger</dt><dd><p>values increase the weight of weighted SSE term.</p>
+</dd>
+</dl>
+</li>
+<li><p><img class="math" src="_images/math/a7a6b47de89b252186f6088098cab2d0f7853491.png" alt="d_k"/>, <img class="math" src="_images/math/b7a4e1cce64b41c9f2c8f7bcbd13ea946b15d46b.png" alt="u_k"/>: label and features vector at time step k.</p></li>
+</ul>
+<dl class="py method">
+<dt id="artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setFeaturesCol">
+<code class="sig-name descname">setFeaturesCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/recursive_least_squares_filter.html#RecursiveLeastSquaresFilter.setFeaturesCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setFeaturesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set features column. Default is “features”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RecursiveLeastSquaresFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setForgettingFactor">
+<code class="sig-name descname">setForgettingFactor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/recursive_least_squares_filter.html#RecursiveLeastSquaresFilter.setForgettingFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setForgettingFactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set forgetting factor, exponentially weights the measurements based on its sequence.</p>
+<p>Default value of 1.0 weights all measurements equally. With smaller values, recent measurements will have
+more weight. Generally set around 0.95 ~ 0.99</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Float &gt;= 1.0</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RecursiveLeastSquaresFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setInitialEstimate">
+<code class="sig-name descname">setInitialEstimate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/recursive_least_squares_filter.html#RecursiveLeastSquaresFilter.setInitialEstimate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setInitialEstimate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set initial estimate for model parameters. Default is zero vector.</p>
+<p>Note that if this parameter is set through here, it will result in same initial estimate for all filters.
+For different initial estimates across filters, set the dataframe column for corresponding to initial estimate
+with setInitialEstimateCol.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – pyspark.ml.linalg.Vector with size (featuresSize)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RecursiveLeastSquaresFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setInitialEstimateCol">
+<code class="sig-name descname">setInitialEstimateCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/recursive_least_squares_filter.html#RecursiveLeastSquaresFilter.setInitialEstimateCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setInitialEstimateCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the column corresponding to initial estimates
+:param value: String
+:return: RecursiveLeastSquaresFilter</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setLabelCol">
+<code class="sig-name descname">setLabelCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/recursive_least_squares_filter.html#RecursiveLeastSquaresFilter.setLabelCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set label column. Default is “label”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – String</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RecursiveLeastSquaresFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setRegularizationMatrix">
+<code class="sig-name descname">setRegularizationMatrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/recursive_least_squares_filter.html#RecursiveLeastSquaresFilter.setRegularizationMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setRegularizationMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set regularization matrix governing the influence of the initial estimate (prior). Larger values will
+remove regularization effect, making the filter behave like OLS.</p>
+<p>Default is 10E5 * I</p>
+<p>Note that if this parameter is set through here, it will result in same regularization for all filters.
+For different regularizations across filters, set the dataframe column for corresponding to regularization
+with setRegularizationMatrixCol.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – pyspark.ml.linalg.Matrix with size (featuresSize, featuresSize)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RecursiveLeastSquaresFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setRegularizationMatrixCol">
+<code class="sig-name descname">setRegularizationMatrixCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/recursive_least_squares_filter.html#RecursiveLeastSquaresFilter.setRegularizationMatrixCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setRegularizationMatrixCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the column corresponding to regularization matrix
+:param value: String
+:return: RecursiveLeastSquaresFilter</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setRegularizationMatrixFactor">
+<code class="sig-name descname">setRegularizationMatrixFactor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/filter/recursive_least_squares_filter.html#RecursiveLeastSquaresFilter.setRegularizationMatrixFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setRegularizationMatrixFactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the regularization matrix with a float factor, which results in setting the regularization matrix as
+factor * identity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Float</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RecursiveLeastSquaresFilter</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">artan</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#guides">Guides</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#python-api-reference">Python API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#scaladoc">Scaladoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ekfguide.html">Online Nonlinear Regression with Extended Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lkfguide.html">Online Linear Regression with Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rlsguide.html">Online Linear Regression with Recursive Least Squares filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stateguide.html">Batch - stream compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stateguide.html#restarts">Restarts</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">artan</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="artan.html">artan package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="artan.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="artan.html#module-artan">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">artan</a><ul>
+  <li><a href="artan.html">artan package</a><ul>
+      <li>Previous: <a href="artan.html" title="previous chapter">artan package</a></li>
+      <li>Next: <a href="artan.smoother.html" title="next chapter">artan.smoother package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/artan.filter.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

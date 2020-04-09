@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>artan.filter.linear_kalman_filter &#8212; artan 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for artan.filter.linear_kalman_filter</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Licensed to the Apache Software Foundation (ASF) under one or more</span>
+<span class="c1"># contributor license agreements.  See the NOTICE file distributed with</span>
+<span class="c1"># this work for additional information regarding copyright ownership.</span>
+<span class="c1"># The ASF licenses this file to You under the Apache License, Version 2.0</span>
+<span class="c1"># (the &quot;License&quot;); you may not use this file except in compliance with</span>
+<span class="c1"># the License.  You may obtain a copy of the License at</span>
+
+<span class="c1">#  http://www.apache.org/licenses/LICENSE-2.0</span>
+
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1">#</span>
+
+<span class="kn">from</span> <span class="nn">artan.state</span> <span class="kn">import</span> <span class="n">StatefulTransformer</span>
+<span class="kn">from</span> <span class="nn">artan.filter.filter_params</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">KalmanFilterParams</span><span class="p">,</span> <span class="n">HasMultipleModelAdaptiveEstimationEnabled</span><span class="p">,</span>
+    <span class="n">HasMultipleModelMeasurementWindowDuration</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="LinearKalmanFilter"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.linear_kalman_filter.LinearKalmanFilter">[docs]</a><span class="k">class</span> <span class="nc">LinearKalmanFilter</span><span class="p">(</span><span class="n">StatefulTransformer</span><span class="p">,</span> <span class="n">KalmanFilterParams</span><span class="p">,</span> <span class="n">HasMultipleModelAdaptiveEstimationEnabled</span><span class="p">,</span>
+                         <span class="n">HasMultipleModelMeasurementWindowDuration</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Linear Kalman Filter, implemented with a stateful spark Transformer for running parallel filters /w spark</span>
+<span class="sd">    dataframes. Transforms an input dataframe of noisy measurements to dataframe of state estimates using stateful</span>
+<span class="sd">    spark transformations, which can be used in both streaming and batch applications.</span>
+
+<span class="sd">    Assuming a state vector :math:`x_k` with size `stateSize`, and measurements vector :math:`z_k`</span>
+<span class="sd">    with size `measurementSize`, below parameters can be specified.</span>
+
+<span class="sd">    - :math:`F_k`, process model, matrix with dimensions `stateSize` x `stateSize`</span>
+<span class="sd">    - :math:`H_k`, measurement model, matrix with dimensions `stateSize` x `measurementSize`</span>
+<span class="sd">    - :math:`Q_k`, process noise covariance, matrix with dimensions `stateSize` x `stateSize`</span>
+<span class="sd">    - :math:`R_k`, measurement noise covariance, matrix with dimensions `measurementSize` x `measurementSize`</span>
+<span class="sd">    - :math:`u_k`, optional control vector, vector with size `controlSize`</span>
+<span class="sd">    - :math:`B_k`, optional control model, matrix with dimensions `stateSize` x `controlSize`</span>
+
+<span class="sd">    Linear Kalman Filter will predict &amp; estimate the state according to following state and measurement equations.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        x_k &amp;= F_k x_{k-1} + B_k u_k + v_k \\</span>
+
+<span class="sd">        z_k &amp;= H_k x_k + w_k</span>
+
+<span class="sd">    Where :math:`v_k` and :math:`w_k` are noise vectors drawn from zero mean,</span>
+<span class="sd">    :math:`Q_k` and :math:`R_k` covariance distributions.</span>
+
+<span class="sd">    The default values of system matrices will not give you a functioning filter, but they will be initialized</span>
+<span class="sd">    with reasonable values given the state and measurement sizes. All of the inputs to the filter can</span>
+<span class="sd">    be specified with a dataframe column which will allow you to have different value across measurements/filters,</span>
+<span class="sd">    or you can specify a constant value across all measurements/filters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stateSize</span><span class="p">,</span> <span class="n">measurementSize</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LinearKalmanFilter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_java_obj</span><span class="p">(</span><span class="s2">&quot;com.github.ozancicek.artan.ml.filter.LinearKalmanFilter&quot;</span><span class="p">,</span>
+                                            <span class="n">stateSize</span><span class="p">,</span> <span class="n">measurementSize</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="LinearKalmanFilter.setMultipleModelMeasurementWindowDuration"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.linear_kalman_filter.LinearKalmanFilter.setMultipleModelMeasurementWindowDuration">[docs]</a>    <span class="k">def</span> <span class="nf">setMultipleModelMeasurementWindowDuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Optionally set the window duration for grouping measurements in same window for MMAE filter aggregation.</span>
+<span class="sd">        Could be used for limiting the state on streaming if event time column is set.</span>
+
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: LinearKalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">multipleModelMeasurementWindowDuration</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinearKalmanFilter.setEnableMultipleModelAdaptiveEstimation"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.linear_kalman_filter.LinearKalmanFilter.setEnableMultipleModelAdaptiveEstimation">[docs]</a>    <span class="k">def</span> <span class="nf">setEnableMultipleModelAdaptiveEstimation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enable MMAE output mode</span>
+
+<span class="sd">        :return: LinearKalmanFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">multipleModelAdaptiveEstimationEnabled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">artan</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ekfguide.html">Online Nonlinear Regression with Extended Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lkfguide.html">Online Linear Regression with Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rlsguide.html">Online Linear Regression with Recursive Least Squares filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stateguide.html">Batch - stream compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stateguide.html#restarts">Restarts</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">artan</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

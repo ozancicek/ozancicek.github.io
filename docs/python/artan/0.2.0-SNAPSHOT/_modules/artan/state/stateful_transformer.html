@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>artan.state.stateful_transformer &#8212; artan 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for artan.state.stateful_transformer</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Licensed to the Apache Software Foundation (ASF) under one or more</span>
+<span class="c1"># contributor license agreements.  See the NOTICE file distributed with</span>
+<span class="c1"># this work for additional information regarding copyright ownership.</span>
+<span class="c1"># The ASF licenses this file to You under the Apache License, Version 2.0</span>
+<span class="c1"># (the &quot;License&quot;); you may not use this file except in compliance with</span>
+<span class="c1"># the License.  You may obtain a copy of the License at</span>
+
+<span class="c1">#  http://www.apache.org/licenses/LICENSE-2.0</span>
+
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1">#</span>
+
+
+<span class="kn">from</span> <span class="nn">pyspark.ml.param</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span><span class="p">,</span> <span class="n">TypeConverters</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.wrapper</span> <span class="kn">import</span> <span class="n">JavaTransformer</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.common</span> <span class="kn">import</span> <span class="n">inherit_doc</span>
+
+
+<div class="viewcode-block" id="HasStateKeyCol"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.HasStateKeyCol">[docs]</a><span class="k">class</span> <span class="nc">HasStateKeyCol</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for state key column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">stateKeyCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;stateKeyCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;State key column. State keys uniquely identify the each state in stateful transformers,&quot;</span> <span class="o">+</span>
+        <span class="s2">&quot;thus controlling the number of states and the degree of parallelization&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasStateKeyCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasStateKeyCol.getStateKeyCol"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.HasStateKeyCol.getStateKeyCol">[docs]</a>    <span class="k">def</span> <span class="nf">getStateKeyCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of state key column or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stateKeyCol</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasEventTimeCol"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.HasEventTimeCol">[docs]</a><span class="k">class</span> <span class="nc">HasEventTimeCol</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for event time column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">eventTimeCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;eventTimeCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column marking the event time of the received measurements&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasEventTimeCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasEventTimeCol.getEventTimeCol"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.HasEventTimeCol.getEventTimeCol">[docs]</a>    <span class="k">def</span> <span class="nf">getEventTimeCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of event time column or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eventTimeCol</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasWatermarkDuration"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.HasWatermarkDuration">[docs]</a><span class="k">class</span> <span class="nc">HasWatermarkDuration</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for watermark duration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">watermarkDuration</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;watermarkDuration&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Watermark duration&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasWatermarkDuration</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasWatermarkDuration.getWatermarkDuration"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.HasWatermarkDuration.getWatermarkDuration">[docs]</a>    <span class="k">def</span> <span class="nf">getWatermarkDuration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of watermark duration or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">watermarkDuration</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasStateTimeoutMode"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.HasStateTimeoutMode">[docs]</a><span class="k">class</span> <span class="nc">HasStateTimeoutMode</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for state timeout mode for clearing states without updates, one of &quot;none&quot;, &quot;process&quot; or &quot;event&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">timeoutMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;timeoutMode&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Timeout mode for clearing the states that didn&#39;t receive measurements.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasStateTimeoutMode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasStateTimeoutMode.getTimeoutMode"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.HasStateTimeoutMode.getTimeoutMode">[docs]</a>    <span class="k">def</span> <span class="nf">getTimeoutMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of timeout mode or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timeoutMode</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasStateTimeoutDuration"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.HasStateTimeoutDuration">[docs]</a><span class="k">class</span> <span class="nc">HasStateTimeoutDuration</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param for state timeout duration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">stateTimeoutDuration</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;stateTimeoutDuration&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Duration to wait before timing out the state&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasStateTimeoutDuration</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HasStateTimeoutDuration.getStateTimeoutDuration"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.HasStateTimeoutDuration.getStateTimeoutDuration">[docs]</a>    <span class="k">def</span> <span class="nf">getStateTimeoutDuration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of state timeout duration or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stateTimeoutDuration</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="StatefulTransformer"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.StatefulTransformer">[docs]</a><span class="nd">@inherit_doc</span>
+<span class="k">class</span> <span class="nc">StatefulTransformer</span><span class="p">(</span><span class="n">JavaTransformer</span><span class="p">,</span>
+                          <span class="n">HasStateKeyCol</span><span class="p">,</span> <span class="n">HasEventTimeCol</span><span class="p">,</span> <span class="n">HasWatermarkDuration</span><span class="p">,</span>
+                          <span class="n">HasStateTimeoutDuration</span><span class="p">,</span> <span class="n">HasStateTimeoutMode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base mixin for stateful transformations</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="StatefulTransformer.setStateKeyCol"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.StatefulTransformer.setStateKeyCol">[docs]</a>    <span class="k">def</span> <span class="nf">setStateKeyCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the state key column. Each value in the column should uniquely identify a stateful transformer. Each</span>
+<span class="sd">        unique value will result in a separate state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">stateKeyCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StatefulTransformer.setStateTimeoutMode"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.StatefulTransformer.setStateTimeoutMode">[docs]</a>    <span class="k">def</span> <span class="nf">setStateTimeoutMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the state timeout mode. Supported values are &#39;none&#39;, &#39;process&#39; and &#39;event&#39;. Enabling state timeout will</span>
+<span class="sd">        clear the state after a certain timeout duration which can be set. If a state receives measurements after</span>
+<span class="sd">        it times out, the state will be initialized as if it received no measurements.</span>
+
+<span class="sd">        - &#39;none&#39;: No state timeout, state is kept indefinitely.</span>
+
+<span class="sd">        - &#39;process&#39;: Process time based state timeout, state will be cleared if no measurements are received for</span>
+<span class="sd">            a duration based on processing time. Effects all states. Timeout duration must be set with</span>
+<span class="sd">            setStateTimeoutDuration.</span>
+
+<span class="sd">        - &#39;event&#39;: Event time based state timeout, state will be cleared if no measurements are recieved for a duration</span>
+<span class="sd">            based on event time determined by watermark. Effects all states. Timeout duration must be set with</span>
+<span class="sd">            setStateTimeoutDuration. Additionally, event time column and it&#39;s watermark duration must be set with</span>
+<span class="sd">            setEventTimeCol and setWatermarkDuration. Note that this will result in dropping measurements occuring later</span>
+<span class="sd">            than the watermark.</span>
+
+<span class="sd">        Default is &#39;none&#39;</span>
+
+<span class="sd">        :param value: String, one of &#39;none&#39;, &#39;process&#39; or &#39;event&#39;</span>
+<span class="sd">        :return: StatefulTransformer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">timeoutMode</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StatefulTransformer.setEventTimeCol"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.StatefulTransformer.setEventTimeCol">[docs]</a>    <span class="k">def</span> <span class="nf">setEventTimeCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the event time column in the input DataFrame.</span>
+
+<span class="sd">        :param value: String, column name of the eventTime timestamp</span>
+<span class="sd">        :return: StatefulTransformer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">eventTimeCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StatefulTransformer.setWatermarkDuration"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.StatefulTransformer.setWatermarkDuration">[docs]</a>    <span class="k">def</span> <span class="nf">setWatermarkDuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the watermark duration for all states, only valid when state timeout mode is &#39;event&#39;.</span>
+<span class="sd">        Must be a valid duration string, such as &#39;10 minutes&#39;.</span>
+
+<span class="sd">        :param value: String, duration specifying watermark from eventTime timestamp</span>
+<span class="sd">        :return: StatefulTransformer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">watermarkDuration</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StatefulTransformer.setStateTimeoutDuration"><a class="viewcode-back" href="../../../artan.state.html#artan.state.stateful_transformer.StatefulTransformer.setStateTimeoutDuration">[docs]</a>    <span class="k">def</span> <span class="nf">setStateTimeoutDuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the state timeout duration for all states, only valid when state timeout mode is not &#39;none&#39;.</span>
+
+<span class="sd">        Must be a valid duration string, such as &#39;10 minutes&#39;.</span>
+
+<span class="sd">        :param value: String, duration specifying state timeout</span>
+<span class="sd">        :return: StatefulTransformer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">stateTimeoutDuration</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">artan</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ekfguide.html">Online Nonlinear Regression with Extended Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lkfguide.html">Online Linear Regression with Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rlsguide.html">Online Linear Regression with Recursive Least Squares filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stateguide.html">Batch - stream compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stateguide.html#restarts">Restarts</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">artan</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

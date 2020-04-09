@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Documentation &#8212; artan 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Online Nonlinear Regression with Extended Kalman Filter" href="ekfguide.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#guides">Guides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-api-reference">Python API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scaladoc">Scaladoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></blockquote>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>Install Spark 2.4+, Scala 2.11 and Python 3.6+. Spark shell or pyspark shell can be run with maven coordinates
+using <code class="docutils literal notranslate"><span class="pre">--packages</span></code> argument. This will place all required jars and python files to appropriate executor and driver
+paths.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spark-shell --packages com.github.ozancicek:artan_2.11:0.1.0
+pyspark --packages com.github.ozancicek:artan_2.11:0.1.0
+spark-submit --packages com.github.ozancicek:artan_2.11:0.1.0
+</pre></div>
+</div>
+</div></blockquote>
+<p>For developing with Scala, the dependencies can be retrieved from Maven Central.</p>
+<blockquote>
+<div><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;com.github.ozancicek&quot;</span> <span class="o">%%</span> <span class="s">&quot;artan&quot;</span> <span class="o">%</span> <span class="s">&quot;0.1.0&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>For developing with Python, the dependencies can be installed with pip.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install artan
+</pre></div>
+</div>
+</div></blockquote>
+<p>Note that pip will only install the python dependencies, which is not enough to submit jobs to spark cluster.
+To submit pyspark jobs, <code class="docutils literal notranslate"><span class="pre">--packages</span></code> argument to pyspark or spark-submit command should still be specified in
+order to download necessary jars from maven central.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pyspark --packages com.github.ozancicek:artan_2.11:0.1.0
+spark-submit --packages com.github.ozancicek:artan_2.11:0.1.0
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="guides">
+<h2>Guides<a class="headerlink" href="#guides" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ekfguide.html">Online Nonlinear Regression with Extended Kalman Filter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ekfguide.html#scala">Scala</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lkfguide.html">Online Linear Regression with Kalman Filter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lkfguide.html#scala">Scala</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lkfguide.html#python">Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rlsguide.html">Online Linear Regression with Recursive Least Squares filter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rlsguide.html#scala">Scala</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rlsguide.html#python">Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stateguide.html">Batch - stream compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stateguide.html#restarts">Restarts</a></li>
+</ul>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="python-api-reference">
+<h2>Python API Reference<a class="headerlink" href="#python-api-reference" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">artan</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="artan.html">artan package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="artan.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="artan.html#module-artan">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="scaladoc">
+<h2>Scaladoc<a class="headerlink" href="#scaladoc" title="Permalink to this headline">¶</a></h2>
+<p>See <a class="reference external" href="https://ozancicek.github.io/docs/scala/artan/0.2.0-SNAPSHOT/index.html#com.github.ozancicek.artan.ml.package">scaladoc</a></p>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">artan</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#guides">Guides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-api-reference">Python API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scaladoc">Scaladoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ekfguide.html">Online Nonlinear Regression with Extended Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lkfguide.html">Online Linear Regression with Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rlsguide.html">Online Linear Regression with Recursive Least Squares filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stateguide.html">Batch - stream compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stateguide.html#restarts">Restarts</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">artan</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="ekfguide.html" title="next chapter">Online Nonlinear Regression with Extended Kalman Filter</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

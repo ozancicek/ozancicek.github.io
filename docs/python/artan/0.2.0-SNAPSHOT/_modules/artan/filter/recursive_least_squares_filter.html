@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>artan.filter.recursive_least_squares_filter &#8212; artan 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for artan.filter.recursive_least_squares_filter</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Licensed to the Apache Software Foundation (ASF) under one or more</span>
+<span class="c1"># contributor license agreements.  See the NOTICE file distributed with</span>
+<span class="c1"># this work for additional information regarding copyright ownership.</span>
+<span class="c1"># The ASF licenses this file to You under the Apache License, Version 2.0</span>
+<span class="c1"># (the &quot;License&quot;); you may not use this file except in compliance with</span>
+<span class="c1"># the License.  You may obtain a copy of the License at</span>
+
+<span class="c1">#  http://www.apache.org/licenses/LICENSE-2.0</span>
+
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.ml.param</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span><span class="p">,</span> <span class="n">TypeConverters</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.param.shared</span> <span class="kn">import</span> <span class="n">HasLabelCol</span><span class="p">,</span> <span class="n">HasFeaturesCol</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">DenseMatrix</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.common</span> <span class="kn">import</span> <span class="n">inherit_doc</span>
+<span class="kn">from</span> <span class="nn">artan.state</span> <span class="kn">import</span> <span class="n">StatefulTransformer</span>
+<span class="kn">from</span> <span class="nn">artan.filter.filter_params</span> <span class="kn">import</span> <span class="n">HasInitialState</span><span class="p">,</span> <span class="n">HasInitialStateCol</span>
+
+
+<span class="k">class</span> <span class="nc">_HasForgettingFactor</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param forgetting factor, between 0 and 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">forgettingFactor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;forgettingFactor&quot;</span><span class="p">,</span> <span class="s2">&quot;Forgetting factor between 0 and 1&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_HasForgettingFactor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">getForgettingFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of forgettingFactor or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forgettingFactor</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_HasRegularizationMatrix</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param regularization matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">regularizationMatrix</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;regularizationMatrix&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Positive definite regularization matrix for RLS filter, typically a factor multiplied by identity matrix.&quot;</span> <span class="o">+</span>
+        <span class="s2">&quot;Small factors (&gt;1) give more weight to initial state, whereas large factors (&gt;&gt;1) decrease regularization&quot;</span> <span class="o">+</span>
+        <span class="s2">&quot;and cause RLS filter to behave like ordinary least squares&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toMatrix</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_HasRegularizationMatrix</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">getRegularizationMatrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of regularization matrix or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regularizationMatrix</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_HasRegularizationMatrixCol</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for param regularization matrix column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">regularizationMatrixCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;regularizationMatrixCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Regularization matrix column for specifying different reg matrices across filters&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_HasRegularizationMatrixCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">getRegularizationMatrixCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of regularization matrix column or its default value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regularizationMatrixCol</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="RecursiveLeastSquaresFilter"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter">[docs]</a><span class="nd">@inherit_doc</span>
+<span class="k">class</span> <span class="nc">RecursiveLeastSquaresFilter</span><span class="p">(</span><span class="n">StatefulTransformer</span><span class="p">,</span> <span class="n">HasInitialState</span><span class="p">,</span> <span class="n">HasInitialStateCol</span><span class="p">,</span>
+                                  <span class="n">_HasForgettingFactor</span><span class="p">,</span> <span class="n">_HasRegularizationMatrix</span><span class="p">,</span> <span class="n">_HasRegularizationMatrixCol</span><span class="p">,</span>
+                                  <span class="n">HasLabelCol</span><span class="p">,</span> <span class="n">HasFeaturesCol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursive formulation of least squares with exponential weighting &amp; regularization, implemented with</span>
+<span class="sd">    a stateful spark Transformer for running parallel filters /w spark dataframes. Transforms an input dataframe</span>
+<span class="sd">    of observations to a dataframe of model parameters using stateful spark transformations, which can be used</span>
+<span class="sd">    in both streaming and batch applications.</span>
+
+<span class="sd">    Let :math:`w` denote the model parameters and :math:`w_{est}` denote our prior belief. RLS minimizes following</span>
+<span class="sd">    regularization and weighted SSE terms;</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        (w - w_{est}) \cdot (\lambda^{-N-1}P)^{-1} \cdot (w - w_{est}) + \sum_{k=1}^{N} \lambda^{N - k} (d_k - u_k \cdot w)</span>
+
+<span class="sd">    Where:</span>
+
+<span class="sd">    - :math:`\lambda`: forgetting factor, or exponential weighting factor. Between 0 and 1.</span>
+<span class="sd">    - :math:`P`: regularization matrix. Smaller values increseas the weight of regularization term, whereas larger</span>
+<span class="sd">        values increase the weight of weighted SSE term.</span>
+<span class="sd">    - :math:`d_k`, :math:`u_k`: label and features vector at time step k.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">featuresSize</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RecursiveLeastSquaresFilter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_java_obj</span><span class="p">(</span><span class="s2">&quot;com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter&quot;</span><span class="p">,</span>
+                                            <span class="n">featuresSize</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_featuresSize</span> <span class="o">=</span> <span class="n">featuresSize</span>
+
+<div class="viewcode-block" id="RecursiveLeastSquaresFilter.setLabelCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setLabelCol">[docs]</a>    <span class="k">def</span> <span class="nf">setLabelCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set label column. Default is &quot;label&quot;</span>
+
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: RecursiveLeastSquaresFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labelCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecursiveLeastSquaresFilter.setFeaturesCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setFeaturesCol">[docs]</a>    <span class="k">def</span> <span class="nf">setFeaturesCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set features column. Default is &quot;features&quot;</span>
+
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: RecursiveLeastSquaresFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">featuresCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecursiveLeastSquaresFilter.setInitialEstimate"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setInitialEstimate">[docs]</a>    <span class="k">def</span> <span class="nf">setInitialEstimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set initial estimate for model parameters. Default is zero vector.</span>
+
+<span class="sd">        Note that if this parameter is set through here, it will result in same initial estimate for all filters.</span>
+<span class="sd">        For different initial estimates across filters, set the dataframe column for corresponding to initial estimate</span>
+<span class="sd">        with setInitialEstimateCol.</span>
+
+<span class="sd">        :param value: pyspark.ml.linalg.Vector with size (featuresSize)</span>
+<span class="sd">        :return: RecursiveLeastSquaresFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">initialState</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecursiveLeastSquaresFilter.setInitialEstimateCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setInitialEstimateCol">[docs]</a>    <span class="k">def</span> <span class="nf">setInitialEstimateCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the column corresponding to initial estimates</span>
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: RecursiveLeastSquaresFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">initialStateCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecursiveLeastSquaresFilter.setForgettingFactor"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setForgettingFactor">[docs]</a>    <span class="k">def</span> <span class="nf">setForgettingFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set forgetting factor, exponentially weights the measurements based on its sequence.</span>
+
+<span class="sd">        Default value of 1.0 weights all measurements equally. With smaller values, recent measurements will have</span>
+<span class="sd">        more weight. Generally set around 0.95 ~ 0.99</span>
+
+<span class="sd">        :param value: Float &gt;= 1.0</span>
+<span class="sd">        :return: RecursiveLeastSquaresFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">forgettingFactor</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecursiveLeastSquaresFilter.setRegularizationMatrix"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setRegularizationMatrix">[docs]</a>    <span class="k">def</span> <span class="nf">setRegularizationMatrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set regularization matrix governing the influence of the initial estimate (prior). Larger values will</span>
+<span class="sd">        remove regularization effect, making the filter behave like OLS.</span>
+
+<span class="sd">        Default is 10E5 * I</span>
+
+<span class="sd">        Note that if this parameter is set through here, it will result in same regularization for all filters.</span>
+<span class="sd">        For different regularizations across filters, set the dataframe column for corresponding to regularization</span>
+<span class="sd">        with setRegularizationMatrixCol.</span>
+
+<span class="sd">        :param value: pyspark.ml.linalg.Matrix with size (featuresSize, featuresSize)</span>
+<span class="sd">        :return: RecursiveLeastSquaresFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">regularizationMatrix</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecursiveLeastSquaresFilter.setRegularizationMatrixCol"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setRegularizationMatrixCol">[docs]</a>    <span class="k">def</span> <span class="nf">setRegularizationMatrixCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the column corresponding to regularization matrix</span>
+<span class="sd">        :param value: String</span>
+<span class="sd">        :return: RecursiveLeastSquaresFilter</span>
+<span class="sd">         &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">regularizationMatrixCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecursiveLeastSquaresFilter.setRegularizationMatrixFactor"><a class="viewcode-back" href="../../../artan.filter.html#artan.filter.recursive_least_squares_filter.RecursiveLeastSquaresFilter.setRegularizationMatrixFactor">[docs]</a>    <span class="k">def</span> <span class="nf">setRegularizationMatrixFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the regularization matrix with a float factor, which results in setting the regularization matrix as</span>
+<span class="sd">        factor * identity</span>
+
+<span class="sd">        :param value: Float</span>
+<span class="sd">        :return: RecursiveLeastSquaresFilter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">regMat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_featuresSize</span><span class="p">)</span> <span class="o">*</span> <span class="n">value</span>
+        <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">regMat</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">regularizationMatrix</span><span class="o">=</span><span class="n">DenseMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">regMat</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">rows</span> <span class="o">*</span> <span class="n">cols</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)))</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">artan</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ekfguide.html">Online Nonlinear Regression with Extended Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lkfguide.html">Online Linear Regression with Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rlsguide.html">Online Linear Regression with Recursive Least Squares filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stateguide.html">Batch - stream compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stateguide.html#restarts">Restarts</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">artan</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

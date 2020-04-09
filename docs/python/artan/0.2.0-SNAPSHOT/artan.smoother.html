@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>artan.smoother package &#8212; artan 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="artan.state package" href="artan.state.html" />
+    <link rel="prev" title="artan.filter package" href="artan.filter.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="artan-smoother-package">
+<h1>artan.smoother package<a class="headerlink" href="#artan-smoother-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-artan.smoother.linear_kalman_smoother">
+<span id="artan-smoother-linear-kalman-smoother-module"></span><h2>artan.smoother.linear_kalman_smoother module<a class="headerlink" href="#module-artan.smoother.linear_kalman_smoother" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="artan.smoother.linear_kalman_smoother.HasFixedLag">
+<em class="property">class </em><code class="sig-prename descclassname">artan.smoother.linear_kalman_smoother.</code><code class="sig-name descname">HasFixedLag</code><a class="reference internal" href="_modules/artan/smoother/linear_kalman_smoother.html#HasFixedLag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.smoother.linear_kalman_smoother.HasFixedLag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.param.Params</span></code></p>
+<p>Mixin for param for fixed lag</p>
+<dl class="py attribute">
+<dt id="artan.smoother.linear_kalman_smoother.HasFixedLag.fixedLag">
+<code class="sig-name descname">fixedLag</code><em class="property"> = Param(parent='undefined', name='fixedLag', doc='Fixed lag')</em><a class="headerlink" href="#artan.smoother.linear_kalman_smoother.HasFixedLag.fixedLag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="artan.smoother.linear_kalman_smoother.HasFixedLag.getFixedLag">
+<code class="sig-name descname">getFixedLag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/smoother/linear_kalman_smoother.html#HasFixedLag.getFixedLag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.smoother.linear_kalman_smoother.HasFixedLag.getFixedLag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of fixed lag or its default value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="artan.smoother.linear_kalman_smoother.LinearKalmanSmoother">
+<em class="property">class </em><code class="sig-prename descclassname">artan.smoother.linear_kalman_smoother.</code><code class="sig-name descname">LinearKalmanSmoother</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stateSize</span></em>, <em class="sig-param"><span class="n">measurementSize</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/smoother/linear_kalman_smoother.html#LinearKalmanSmoother"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.smoother.linear_kalman_smoother.LinearKalmanSmoother" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="artan.state.html#artan.state.stateful_transformer.StatefulTransformer" title="artan.state.stateful_transformer.StatefulTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.state.stateful_transformer.StatefulTransformer</span></code></a>, <a class="reference internal" href="artan.filter.html#artan.filter.filter_params.KalmanFilterParams" title="artan.filter.filter_params.KalmanFilterParams"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.filter.filter_params.KalmanFilterParams</span></code></a>, <a class="reference internal" href="#artan.smoother.linear_kalman_smoother.HasFixedLag" title="artan.smoother.linear_kalman_smoother.HasFixedLag"><code class="xref py py-class docutils literal notranslate"><span class="pre">artan.smoother.linear_kalman_smoother.HasFixedLag</span></code></a></p>
+<p>Fixed lag linear kalman smoother using Rauch-Tung-Striebel method. The smoother is implemented with a
+stateful spark transformer for running parallel smoother /w spark dataframes.
+Transforms an input dataframe of noisy measurements to dataframe of state estimates using
+stateful spark transformations, which can be used in both streaming and batch applications.</p>
+<p>At a time step k and a fixed lag N, the fixed lag linear kalman smoother computes the state estimates of a linear
+kalman filter based on all measurements made between step k and step k-t. For each time step k &gt;= N, the smoother
+outputs an estimate for all the time steps between k and k-N. When k &lt; N, the smoother doesn’t output any estimates.
+As a result, the memory requirements of this filter is N times of a linear kalman filter. Since the smoother
+outputs multiple estimates for a single measurement, it is advised to set event time column
+of the measurements with setEventTimeCol.</p>
+<dl class="py method">
+<dt id="artan.smoother.linear_kalman_smoother.LinearKalmanSmoother.setFixedLag">
+<code class="sig-name descname">setFixedLag</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/artan/smoother/linear_kalman_smoother.html#LinearKalmanSmoother.setFixedLag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#artan.smoother.linear_kalman_smoother.LinearKalmanSmoother.setFixedLag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the smoother fixed lag</p>
+<p>Default is 2.
+:param value: Int
+:return: LinearKalmanSmoother</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">artan</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#guides">Guides</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#python-api-reference">Python API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#scaladoc">Scaladoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ekfguide.html">Online Nonlinear Regression with Extended Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lkfguide.html">Online Linear Regression with Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rlsguide.html">Online Linear Regression with Recursive Least Squares filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stateguide.html">Batch - stream compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stateguide.html#restarts">Restarts</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">artan</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="artan.html">artan package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="artan.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="artan.html#module-artan">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">artan</a><ul>
+  <li><a href="artan.html">artan package</a><ul>
+      <li>Previous: <a href="artan.filter.html" title="previous chapter">artan.filter package</a></li>
+      <li>Next: <a href="artan.state.html" title="next chapter">artan.state package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/artan.smoother.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
