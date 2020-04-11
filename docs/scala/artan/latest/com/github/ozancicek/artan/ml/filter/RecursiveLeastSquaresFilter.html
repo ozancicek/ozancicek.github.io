@@ -1,0 +1,2250 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>RecursiveLeastSquaresFilter - com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter</title>
+          <meta name="description" content="RecursiveLeastSquaresFilter - com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter" />
+          <meta name="keywords" content="RecursiveLeastSquaresFilter com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../../../index.html';
+            var hash = 'com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img alt="Class" src="../../../../../../lib/class_big.png" />
+        <p id="owner"><a href="../../../../../package.html" class="extype" name="com">com</a>.<a href="../../../../package.html" class="extype" name="com.github">github</a>.<a href="../../../package.html" class="extype" name="com.github.ozancicek">ozancicek</a>.<a href="../../package.html" class="extype" name="com.github.ozancicek.artan">artan</a>.<a href="../package.html" class="extype" name="com.github.ozancicek.artan.ml">ml</a>.<a href="package.html" class="extype" name="com.github.ozancicek.artan.ml.filter">filter</a></p>
+        <h1>RecursiveLeastSquaresFilter</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="com.github.ozancicek.artan.ml.filter">package filter</a>
+          </div></span></h3><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">RecursiveLeastSquaresFilter</span><span class="result"> extends <span class="extype" name="com.github.ozancicek.artan.ml.state.StatefulTransformer">StatefulTransformer</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.github.ozancicek.artan.ml.state.RLSInput">RLSInput</span>, <span class="extype" name="com.github.ozancicek.artan.ml.state.RLSState">RLSState</span>, <a href="../state/RLSOutput.html" class="extype" name="com.github.ozancicek.artan.ml.state.RLSOutput">RLSOutput</a>, <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>] with <span class="extype" name="org.apache.spark.ml.param.shared.HasLabelCol">HasLabelCol</span> with <span class="extype" name="org.apache.spark.ml.param.shared.HasFeaturesCol">HasFeaturesCol</span> with <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasForgettingFactor">HasForgettingFactor</span> with <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasInitialState">HasInitialState</span> with <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrix">HasRegularizationMatrix</span> with <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasInitialStateCol">HasInitialStateCol</span> with <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrixCol">HasRegularizationMatrixCol</span></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Recursive formulation of least squares with exponential weighting &amp; regularization, implemented with
+a stateful spark Transformer for running parallel filters /w spark dataframes. Transforms an input dataframe
+of observations to a dataframe of model parameters using stateful spark transformations, which can be used
+in both streaming and batch applications.</p><p>Let w denote the model parameters and w_est denote our prior belief. RLS minimizes following regularization
+&amp; weighted SSE terms;</p><p>(w - w_est).T * (lambda<sup>(-N-1) * P)</sup>(-1) * (w - w_est) + Sum(lambda(N - j)*(d_k - u_k.T * w),  k = 0,1, .. N)</p><p>Where:</p><ul><li>lambda: forgetting factor, or exponential weighting factor. Between 0 and 1.</li><li>P: regularization matrix. Smaller values increseas the weight of regularization term, whereas larger values
+   increases the weight of weighted SSE term.</li><li>d_k, u_k: label and features vector at time step k.
+</li></ul></div><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrixCol">HasRegularizationMatrixCol</span>, <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasInitialStateCol">HasInitialStateCol</span>, <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrix">HasRegularizationMatrix</span>, <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasInitialState">HasInitialState</span>, <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasForgettingFactor">HasForgettingFactor</span>, <span class="extype" name="org.apache.spark.ml.param.shared.HasFeaturesCol">HasFeaturesCol</span>, <span class="extype" name="org.apache.spark.ml.param.shared.HasLabelCol">HasLabelCol</span>, <span class="extype" name="com.github.ozancicek.artan.ml.state.StatefulTransformer">StatefulTransformer</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.github.ozancicek.artan.ml.state.RLSInput">RLSInput</span>, <span class="extype" name="com.github.ozancicek.artan.ml.state.RLSState">RLSState</span>, <a href="../state/RLSOutput.html" class="extype" name="com.github.ozancicek.artan.ml.state.RLSOutput">RLSOutput</a>, <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>], <span class="extype" name="com.github.ozancicek.artan.ml.state.StatefulTransformerParams">StatefulTransformerParams</span>[<a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>, <span class="extype" name="scala.Predef.String">String</span>], <span class="extype" name="com.github.ozancicek.artan.ml.state.HasStateTimeoutDuration">HasStateTimeoutDuration</span>, <span class="extype" name="com.github.ozancicek.artan.ml.state.HasStateKeyCol">HasStateKeyCol</span>[<span class="extype" name="scala.Predef.String">String</span>], <span class="extype" name="com.github.ozancicek.artan.ml.state.HasWatermarkDuration">HasWatermarkDuration</span>, <span class="extype" name="com.github.ozancicek.artan.ml.state.HasEventTimeCol">HasEventTimeCol</span>, <span class="extype" name="com.github.ozancicek.artan.ml.state.HasStateTimeoutMode">HasStateTimeoutMode</span>, <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                <li class="group out"><span>Grouped</span></li>
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By Inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter"><span>RecursiveLeastSquaresFilter</span></li><li class="in" name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrixCol"><span>HasRegularizationMatrixCol</span></li><li class="in" name="com.github.ozancicek.artan.ml.filter.HasInitialStateCol"><span>HasInitialStateCol</span></li><li class="in" name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrix"><span>HasRegularizationMatrix</span></li><li class="in" name="com.github.ozancicek.artan.ml.filter.HasInitialState"><span>HasInitialState</span></li><li class="in" name="com.github.ozancicek.artan.ml.filter.HasForgettingFactor"><span>HasForgettingFactor</span></li><li class="in" name="org.apache.spark.ml.param.shared.HasFeaturesCol"><span>HasFeaturesCol</span></li><li class="in" name="org.apache.spark.ml.param.shared.HasLabelCol"><span>HasLabelCol</span></li><li class="in" name="com.github.ozancicek.artan.ml.state.StatefulTransformer"><span>StatefulTransformer</span></li><li class="in" name="com.github.ozancicek.artan.ml.state.StatefulTransformerParams"><span>StatefulTransformerParams</span></li><li class="in" name="com.github.ozancicek.artan.ml.state.HasStateTimeoutDuration"><span>HasStateTimeoutDuration</span></li><li class="in" name="com.github.ozancicek.artan.ml.state.HasStateKeyCol"><span>HasStateKeyCol</span></li><li class="in" name="com.github.ozancicek.artan.ml.state.HasWatermarkDuration"><span>HasWatermarkDuration</span></li><li class="in" name="com.github.ozancicek.artan.ml.state.HasEventTimeCol"><span>HasEventTimeCol</span></li><li class="in" name="com.github.ozancicek.artan.ml.state.HasStateTimeoutMode"><span>HasStateTimeoutMode</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show All</span></li>
+            </ol>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(featuresSize:Int):com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter"></a>
+      <a id="&lt;init&gt;:RecursiveLeastSquaresFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">RecursiveLeastSquaresFilter</span><span class="params">(<span name="featuresSize">featuresSize: <span class="extype" name="scala.Int">Int</span></span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@&lt;init&gt;(featuresSize:Int):com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(featuresSize:Int,uid:String):com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter"></a>
+      <a id="&lt;init&gt;:RecursiveLeastSquaresFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">RecursiveLeastSquaresFilter</span><span class="params">(<span name="featuresSize">featuresSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@&lt;init&gt;(featuresSize:Int,uid:String):com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">featuresSize</dt><dd class="cmt"><p>Size of the features vector</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@##():Int" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#$" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$[T](param:org.apache.spark.ml.param.Param[T]):T"></a>
+      <a id="$[T](Param[T]):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.$.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Params.$.T">T</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@$[T](param:org.apache.spark.ml.param.Param[T]):T" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformer#asDataFrame" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asDataFrame(in:org.apache.spark.sql.Dataset[OutType]):org.apache.spark.sql.DataFrame"></a>
+      <a id="asDataFrame(Dataset[RLSOutput]):DataFrame"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asDataFrame</span><span class="params">(<span name="in">in: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[<a href="../state/RLSOutput.html" class="extype" name="com.github.ozancicek.artan.ml.state.RLSOutput">RLSOutput</a>]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@asDataFrame(in:org.apache.spark.sql.Dataset[OutType]):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>StatefulTransformer</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformer#asDataFrameTransformSchema" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asDataFrameTransformSchema(schema:org.apache.spark.sql.types.StructType):org.apache.spark.sql.types.StructType"></a>
+      <a id="asDataFrameTransformSchema(StructType):StructType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asDataFrameTransformSchema</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@asDataFrameTransformSchema(schema:org.apache.spark.sql.types.StructType):org.apache.spark.sql.types.StructType" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>StatefulTransformer</dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a>
+      <a id="clear(Param[_]):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clear</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[_]</span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@clone():Object" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#copy" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="copy(extra:org.apache.spark.ml.param.ParamMap):com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter"></a>
+      <a id="copy(ParamMap):RecursiveLeastSquaresFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">copy</span><span class="params">(<span name="extra">extra: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@copy(extra:org.apache.spark.ml.param.ParamMap):com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Creates a copy of this instance with the same UID and some extra params.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a copy of this instance with the same UID and some extra params.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a> → Transformer → PipelineStage → Params</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#copyValues" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="copyValues[T&lt;:org.apache.spark.ml.param.Params](to:T,extra:org.apache.spark.ml.param.ParamMap):T"></a>
+      <a id="copyValues[T&lt;:Params](T,ParamMap):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">copyValues</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="org.apache.spark.ml.param.Params">Params</span></span>]</span><span class="params">(<span name="to">to: <span class="extype" name="org.apache.spark.ml.param.Params.copyValues.T">T</span></span>, <span name="extra">extra: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Params.copyValues.T">T</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@copyValues[T&lt;:org.apache.spark.ml.param.Params](to:T,extra:org.apache.spark.ml.param.ParamMap):T" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#defaultCopy" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T"></a>
+      <a id="defaultCopy[T&lt;:Params](ParamMap):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultCopy</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="org.apache.spark.ml.param.Params">Params</span></span>]</span><span class="params">(<span name="extra">extra: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Params.defaultCopy.T">T</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#defaultStateKey" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultStateKey:String"></a>
+      <a id="defaultStateKey:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultStateKey</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@defaultStateKey:String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a> → HasStateKeyCol</dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.HasEventTimeCol#eventTimeCol" visbl="pub" data-isabs="false" fullComment="yes" group="stateParam">
+      <a id="eventTimeCol:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="eventTimeCol:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eventTimeCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@eventTimeCol:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Param for event time column name, which marks the event time of the received measurements.</p><div class="fullcomment"><div class="comment cmt"><p>Param for event time column name, which marks the event time of the received measurements. If set,
+the measurements will be processed in ascending order according to event time.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasEventTimeCol</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#explainParam" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="explainParam(param:org.apache.spark.ml.param.Param[_]):String"></a>
+      <a id="explainParam(Param[_]):String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">explainParam</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[_]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@explainParam(param:org.apache.spark.ml.param.Param[_]):String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#explainParams" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="explainParams():String"></a>
+      <a id="explainParams():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">explainParams</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@explainParams():String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#extractParamMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="extractParamMap():org.apache.spark.ml.param.ParamMap"></a>
+      <a id="extractParamMap():ParamMap"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">extractParamMap</span><span class="params">()</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@extractParamMap():org.apache.spark.ml.param.ParamMap" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#extractParamMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="extractParamMap(extra:org.apache.spark.ml.param.ParamMap):org.apache.spark.ml.param.ParamMap"></a>
+      <a id="extractParamMap(ParamMap):ParamMap"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">extractParamMap</span><span class="params">(<span name="extra">extra: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@extractParamMap(extra:org.apache.spark.ml.param.ParamMap):org.apache.spark.ml.param.ParamMap" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.shared.HasFeaturesCol#featuresCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="featuresCol:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="featuresCol:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">featuresCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@featuresCol:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasFeaturesCol</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#featuresSize" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="featuresSize:Int"></a>
+      <a id="featuresSize:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">featuresSize</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@featuresSize:Int" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Size of the features vector</p><div class="fullcomment"><div class="comment cmt"><p>Size of the features vector</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a> → HasRegularizationMatrixCol → HasRegularizationMatrix</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.HasForgettingFactor#forgettingFactor" visbl="pub" data-isabs="false" fullComment="yes" group="param">
+      <a id="forgettingFactor:org.apache.spark.ml.param.DoubleParam"></a>
+      <a id="forgettingFactor:DoubleParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">forgettingFactor</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.DoubleParam">DoubleParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@forgettingFactor:org.apache.spark.ml.param.DoubleParam" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Forgetting factor for having more weight in recent measurements, between 0.0 and 1.0
+Default value of 1.0 weights all measurements equally.</p><div class="fullcomment"><div class="comment cmt"><p>Forgetting factor for having more weight in recent measurements, between 0.0 and 1.0
+Default value of 1.0 weights all measurements equally. Smaller values increases the weight in recent
+measurements. Typically around 0.95~0.99</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasForgettingFactor</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#get" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a>
+      <a id="get[T](Param[T]):Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.get.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.ml.param.Params.get.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@get[T](param:org.apache.spark.ml.param.Param[T]):Option[T]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a>
+      <a id="getDefault[T](Param[T]):Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.getDefault.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.ml.param.Params.getDefault.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.HasEventTimeCol#getEventTimeCol" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getEventTimeCol:String"></a>
+      <a id="getEventTimeCol:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getEventTimeCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getEventTimeCol:String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Getter for event time column parameter</p><div class="fullcomment"><div class="comment cmt"><p>Getter for event time column parameter</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasEventTimeCol</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.shared.HasFeaturesCol#getFeaturesCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getFeaturesCol:String"></a>
+      <a id="getFeaturesCol:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getFeaturesCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getFeaturesCol:String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasFeaturesCol</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.HasForgettingFactor#getForgettingFactor" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getForgettingFactor:Double"></a>
+      <a id="getForgettingFactor:Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getForgettingFactor</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getForgettingFactor:Double" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Getter for forgetting factor</p><div class="fullcomment"><div class="comment cmt"><p>Getter for forgetting factor</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasForgettingFactor</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.HasInitialState#getInitialState" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getInitialState:org.apache.spark.ml.linalg.Vector"></a>
+      <a id="getInitialState:Vector"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getInitialState</span><span class="result">: <span class="extype" name="org.apache.spark.ml.linalg.Vector">Vector</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getInitialState:org.apache.spark.ml.linalg.Vector" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Getter for the initial value of the state vector
+</p><div class="fullcomment"><div class="comment cmt"><p>Getter for the initial value of the state vector
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInitialState</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.HasInitialStateCol#getInitialStateCol" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getInitialStateCol:String"></a>
+      <a id="getInitialStateCol:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getInitialStateCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getInitialStateCol:String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Getter for initial state vector column</p><div class="fullcomment"><div class="comment cmt"><p>Getter for initial state vector column</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInitialStateCol</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.shared.HasLabelCol#getLabelCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getLabelCol:String"></a>
+      <a id="getLabelCol:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLabelCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getLabelCol:String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasLabelCol</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a>
+      <a id="getOrDefault[T](Param[T]):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getOrDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.getOrDefault.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Params.getOrDefault.T">T</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#getParam" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getParam(paramName:String):org.apache.spark.ml.param.Param[Any]"></a>
+      <a id="getParam(String):Param[Any]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getParam</span><span class="params">(<span name="paramName">paramName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Any">Any</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getParam(paramName:String):org.apache.spark.ml.param.Param[Any]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrix#getRegularizationMatrix" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getRegularizationMatrix:org.apache.spark.ml.linalg.Matrix"></a>
+      <a id="getRegularizationMatrix:Matrix"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRegularizationMatrix</span><span class="result">: <span class="extype" name="org.apache.spark.ml.linalg.Matrix">Matrix</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getRegularizationMatrix:org.apache.spark.ml.linalg.Matrix" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Getter for regularization matrix param</p><div class="fullcomment"><div class="comment cmt"><p>Getter for regularization matrix param</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasRegularizationMatrix</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrixCol#getRegularizationMatrixCol" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getRegularizationMatrixCol:String"></a>
+      <a id="getRegularizationMatrixCol:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRegularizationMatrixCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getRegularizationMatrixCol:String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Getter for regularization matrix column</p><div class="fullcomment"><div class="comment cmt"><p>Getter for regularization matrix column</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasRegularizationMatrixCol</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.HasStateKeyCol#getStateKeyColname" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getStateKeyColname:String"></a>
+      <a id="getStateKeyColname:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStateKeyColname</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getStateKeyColname:String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Getter for state key column name parameter</p><div class="fullcomment"><div class="comment cmt"><p>Getter for state key column name parameter</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasStateKeyCol</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.HasStateKeyCol#getStateKeyColumn" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getStateKeyColumn:org.apache.spark.sql.Column"></a>
+      <a id="getStateKeyColumn:Column"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStateKeyColumn</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Column">Column</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getStateKeyColumn:org.apache.spark.sql.Column" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Getter for state key column</p><div class="fullcomment"><div class="comment cmt"><p>Getter for state key column</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasStateKeyCol</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.HasStateTimeoutDuration#getStateTimeoutDuration" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getStateTimeoutDuration:Option[String]"></a>
+      <a id="getStateTimeoutDuration:Option[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStateTimeoutDuration</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getStateTimeoutDuration:Option[String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Getter for state timeout duration parameter</p><div class="fullcomment"><div class="comment cmt"><p>Getter for state timeout duration parameter</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasStateTimeoutDuration</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.HasStateTimeoutMode#getTimeoutMode" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getTimeoutMode:com.github.ozancicek.artan.ml.state.TimeoutMode"></a>
+      <a id="getTimeoutMode:TimeoutMode"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getTimeoutMode</span><span class="result">: <span class="extype" name="com.github.ozancicek.artan.ml.state.TimeoutMode">TimeoutMode</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getTimeoutMode:com.github.ozancicek.artan.ml.state.TimeoutMode" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Getter for timeout mode</p><div class="fullcomment"><div class="comment cmt"><p>Getter for timeout mode</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>TimeoutMode</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasStateTimeoutMode</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.HasWatermarkDuration#getWatermarkDuration" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getWatermarkDuration:String"></a>
+      <a id="getWatermarkDuration:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getWatermarkDuration</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@getWatermarkDuration:String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Getter for watermark duration parameter</p><div class="fullcomment"><div class="comment cmt"><p>Getter for watermark duration parameter</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasWatermarkDuration</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a>
+      <a id="hasDefault[T](Param[T]):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hasDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.hasDefault.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#hasParam" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hasParam(paramName:String):Boolean"></a>
+      <a id="hasParam(String):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hasParam</span><span class="params">(<span name="paramName">paramName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@hasParam(paramName:String):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.HasInitialState#initialState" visbl="pub" data-isabs="false" fullComment="yes" group="param">
+      <a id="initialState:org.apache.spark.ml.param.Param[org.apache.spark.ml.linalg.Vector]"></a>
+      <a id="initialState:Param[Vector]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">initialState</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.linalg.Vector">Vector</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@initialState:org.apache.spark.ml.param.Param[org.apache.spark.ml.linalg.Vector]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Param for initial value of the state vector
+</p><div class="fullcomment"><div class="comment cmt"><p>Param for initial value of the state vector
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInitialState</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.HasInitialStateCol#initialStateCol" visbl="pub" data-isabs="false" fullComment="yes" group="param">
+      <a id="initialStateCol:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="initialStateCol:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">initialStateCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@initialStateCol:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Param for initial state vector as a dataframe column.</p><div class="fullcomment"><div class="comment cmt"><p>Param for initial state vector as a dataframe column. Overrides <a href="#initialState:org.apache.spark.ml.param.Param[org.apache.spark.ml.linalg.Vector]" class="extmbr" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#initialState">initialState</a> param. Can
+be used for initializing separate state vector for each state.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInitialStateCol</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a>
+      <a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">initializeLogIfNecessary</span><span class="params">(<span name="isInterpreter">isInterpreter: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="silent">silent: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="initializeLogIfNecessary(isInterpreter:Boolean):Unit"></a>
+      <a id="initializeLogIfNecessary(Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">initializeLogIfNecessary</span><span class="params">(<span name="isInterpreter">isInterpreter: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@initializeLogIfNecessary(isInterpreter:Boolean):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a>
+      <a id="isDefined(Param[_]):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isDefined</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[_]</span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#isSet" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isSet(param:org.apache.spark.ml.param.Param[_]):Boolean"></a>
+      <a id="isSet(Param[_]):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isSet</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[_]</span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@isSet(param:org.apache.spark.ml.param.Param[_]):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#isTraceEnabled" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isTraceEnabled():Boolean"></a>
+      <a id="isTraceEnabled():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isTraceEnabled</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@isTraceEnabled():Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformer#keyFunc" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="keyFunc:RowType=&gt;GroupKeyType"></a>
+      <a id="keyFunc:(RLSInput)⇒String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">keyFunc</span><span class="result">: (<span class="extype" name="com.github.ozancicek.artan.ml.state.RLSInput">RLSInput</span>) ⇒ <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@keyFunc:RowType=&gt;GroupKeyType" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>StatefulTransformer</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.shared.HasLabelCol#labelCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="labelCol:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="labelCol:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">labelCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@labelCol:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasLabelCol</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#log" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="log:org.slf4j.Logger"></a>
+      <a id="log:Logger"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">log</span><span class="result">: <span class="extype" name="org.slf4j.Logger">Logger</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@log:org.slf4j.Logger" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logDebug" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logDebug(msg:=&gt;String,throwable:Throwable):Unit"></a>
+      <a id="logDebug(⇒String,Throwable):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logDebug</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@logDebug(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logDebug" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logDebug(msg:=&gt;String):Unit"></a>
+      <a id="logDebug(⇒String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logDebug</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@logDebug(msg:=&gt;String):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logError" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logError(msg:=&gt;String,throwable:Throwable):Unit"></a>
+      <a id="logError(⇒String,Throwable):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logError</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@logError(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logError" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logError(msg:=&gt;String):Unit"></a>
+      <a id="logError(⇒String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logError</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@logError(msg:=&gt;String):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logInfo" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logInfo(msg:=&gt;String,throwable:Throwable):Unit"></a>
+      <a id="logInfo(⇒String,Throwable):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logInfo</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@logInfo(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logInfo" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logInfo(msg:=&gt;String):Unit"></a>
+      <a id="logInfo(⇒String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logInfo</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@logInfo(msg:=&gt;String):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logName" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logName:String"></a>
+      <a id="logName:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logName</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@logName:String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logTrace" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logTrace(msg:=&gt;String,throwable:Throwable):Unit"></a>
+      <a id="logTrace(⇒String,Throwable):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logTrace</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@logTrace(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logTrace" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logTrace(msg:=&gt;String):Unit"></a>
+      <a id="logTrace(⇒String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logTrace</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@logTrace(msg:=&gt;String):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logWarning" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logWarning(msg:=&gt;String,throwable:Throwable):Unit"></a>
+      <a id="logWarning(⇒String,Throwable):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logWarning</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>, <span name="throwable">throwable: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@logWarning(msg:=&gt;String,throwable:Throwable):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="org.apache.spark.internal.Logging#logWarning" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logWarning(msg:=&gt;String):Unit"></a>
+      <a id="logWarning(⇒String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logWarning</span><span class="params">(<span name="msg">msg: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@logWarning(msg:=&gt;String):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformer#outEncoder" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="outEncoder:org.apache.spark.sql.Encoder[OutType]"></a>
+      <a id="outEncoder:Encoder[RLSOutput]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">outEncoder</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Encoder">Encoder</span>[<a href="../state/RLSOutput.html" class="extype" name="com.github.ozancicek.artan.ml.state.RLSOutput">RLSOutput</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@outEncoder:org.apache.spark.sql.Encoder[OutType]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>StatefulTransformer</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#params" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="params:Array[org.apache.spark.ml.param.Param[_]]"></a>
+      <a id="params:Array[Param[_]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">params</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[_]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@params:Array[org.apache.spark.ml.param.Param[_]]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrix#regularizationMatrix" visbl="pub" data-isabs="false" fullComment="yes" group="param">
+      <a id="regularizationMatrix:org.apache.spark.ml.param.Param[org.apache.spark.ml.linalg.Matrix]"></a>
+      <a id="regularizationMatrix:Param[Matrix]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">regularizationMatrix</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.linalg.Matrix">Matrix</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@regularizationMatrix:org.apache.spark.ml.param.Param[org.apache.spark.ml.linalg.Matrix]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Positive definite regularization matrix for RLS filter, typically a factor multiplied by identity matrix.</p><div class="fullcomment"><div class="comment cmt"><p>Positive definite regularization matrix for RLS filter, typically a factor multiplied by identity matrix.
+Small factors (factor&gt;1) give more weight to the initial state, whereas large factors (&gt;&gt;1) decrease
+regularization and cause RLS filter to behave like ordinary least squares.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasRegularizationMatrix</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrixCol#regularizationMatrixCol" visbl="pub" data-isabs="false" fullComment="yes" group="param">
+      <a id="regularizationMatrixCol:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="regularizationMatrixCol:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">regularizationMatrixCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@regularizationMatrixCol:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Param for regularization matrix column for specifying different reg matrices across filters.</p><div class="fullcomment"><div class="comment cmt"><p>Param for regularization matrix column for specifying different reg matrices across filters.
+Overrides <a href="#regularizationMatrix:org.apache.spark.ml.param.Param[org.apache.spark.ml.linalg.Matrix]" class="extmbr" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#regularizationMatrix">regularizationMatrix</a> setting.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasRegularizationMatrixCol</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformer#rowEncoder" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="rowEncoder:org.apache.spark.sql.Encoder[RowType]"></a>
+      <a id="rowEncoder:Encoder[RLSInput]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rowEncoder</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Encoder">Encoder</span>[<span class="extype" name="com.github.ozancicek.artan.ml.state.RLSInput">RLSInput</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@rowEncoder:org.apache.spark.sql.Encoder[RowType]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>StatefulTransformer</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="set(paramPair:org.apache.spark.ml.param.ParamPair[_]):Params.this.type"></a>
+      <a id="set(ParamPair[_]):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">set</span><span class="params">(<span name="paramPair">paramPair: <span class="extype" name="org.apache.spark.ml.param.ParamPair">ParamPair</span>[_]</span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@set(paramPair:org.apache.spark.ml.param.ParamPair[_]):Params.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="set(param:String,value:Any):Params.this.type"></a>
+      <a id="set(String,Any):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">set</span><span class="params">(<span name="param">param: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@set(param:String,value:Any):Params.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#set" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="set[T](param:org.apache.spark.ml.param.Param[T],value:T):Params.this.type"></a>
+      <a id="set[T](Param[T],T):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="org.apache.spark.ml.param.Params.set.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@set[T](param:org.apache.spark.ml.param.Param[T],value:T):Params.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a>
+      <a id="setDefault(ParamPair[_]*):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefault</span><span class="params">(<span name="paramPairs">paramPairs: <span class="extype" name="org.apache.spark.ml.param.ParamPair">ParamPair</span>[_]*</span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDefault[T](param:org.apache.spark.ml.param.Param[T],value:T):Params.this.type"></a>
+      <a id="setDefault[T](Param[T],T):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.setDefault.T">T</span>]</span>, <span name="value">value: <span class="extype" name="org.apache.spark.ml.param.Params.setDefault.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setDefault[T](param:org.apache.spark.ml.param.Param[T],value:T):Params.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformerParams#setEventTimeCol" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setEventTimeCol(value:String):ImplType"></a>
+      <a id="setEventTimeCol(String):RecursiveLeastSquaresFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setEventTimeCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setEventTimeCol(value:String):ImplType" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Sets the event time column in the input DataFrame for event time based state timeout.</p><div class="fullcomment"><div class="comment cmt"><p>Sets the event time column in the input DataFrame for event time based state timeout.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>StatefulTransformerParams</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#setFeaturesCol" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setFeaturesCol(value:String):RecursiveLeastSquaresFilter.this.type"></a>
+      <a id="setFeaturesCol(String):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setFeaturesCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setFeaturesCol(value:String):RecursiveLeastSquaresFilter.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set features column.</p><div class="fullcomment"><div class="comment cmt"><p>Set features column. Default is &quot;features&quot;</p></div></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#setForgettingFactor" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setForgettingFactor(value:Double):RecursiveLeastSquaresFilter.this.type"></a>
+      <a id="setForgettingFactor(Double):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setForgettingFactor</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setForgettingFactor(value:Double):RecursiveLeastSquaresFilter.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set forgetting factor, which exponentially weights measurements to have more influence from recent measurements.</p><div class="fullcomment"><div class="comment cmt"><p>Set forgetting factor, which exponentially weights measurements to have more influence from recent measurements.</p><p>Default value of 1.0 weights all measurements equally. With smaller values, recent measurements will have
+more weights. Generally set around 0.95 ~ 0.99</p></div></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#setInitialEstimate" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setInitialEstimate(value:org.apache.spark.ml.linalg.Vector):RecursiveLeastSquaresFilter.this.type"></a>
+      <a id="setInitialEstimate(Vector):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setInitialEstimate</span><span class="params">(<span name="value">value: <span class="extype" name="org.apache.spark.ml.linalg.Vector">Vector</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setInitialEstimate(value:org.apache.spark.ml.linalg.Vector):RecursiveLeastSquaresFilter.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set initial estimate for model parameters for all filters.</p><div class="fullcomment"><div class="comment cmt"><p>Set initial estimate for model parameters for all filters. Use setInitialEstimateCol for different
+initial estimates across filters. Default is zero vector.</p></div></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#setInitialEstimateCol" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
+      <a id="setInitialEstimateCol(value:String):RecursiveLeastSquaresFilter.this.type"></a>
+      <a id="setInitialEstimateCol(String):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setInitialEstimateCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setInitialEstimateCol(value:String):RecursiveLeastSquaresFilter.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set initial estimate column.</p>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#setLabelCol" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setLabelCol(value:String):RecursiveLeastSquaresFilter.this.type"></a>
+      <a id="setLabelCol(String):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setLabelCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setLabelCol(value:String):RecursiveLeastSquaresFilter.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set label column.</p><div class="fullcomment"><div class="comment cmt"><p>Set label column. Default is &quot;label&quot;</p></div></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#setRegularizationMatrix" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setRegularizationMatrix(value:org.apache.spark.ml.linalg.Matrix):RecursiveLeastSquaresFilter.this.type"></a>
+      <a id="setRegularizationMatrix(Matrix):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setRegularizationMatrix</span><span class="params">(<span name="value">value: <span class="extype" name="org.apache.spark.ml.linalg.Matrix">Matrix</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setRegularizationMatrix(value:org.apache.spark.ml.linalg.Matrix):RecursiveLeastSquaresFilter.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set regularization matrix governing the influence of the initial estimate (prior).</p><div class="fullcomment"><div class="comment cmt"><p>Set regularization matrix governing the influence of the initial estimate (prior). Larger values will
+remove regularization effect, making the filter behave like OLS. Use setRegularizationMatrixCol for different
+values accross filters.</p><p>Default is 10E5 * I</p></div></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#setRegularizationMatrixCol" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
+      <a id="setRegularizationMatrixCol(value:String):RecursiveLeastSquaresFilter.this.type"></a>
+      <a id="setRegularizationMatrixCol(String):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setRegularizationMatrixCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setRegularizationMatrixCol(value:String):RecursiveLeastSquaresFilter.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set regularization matrix column.</p>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#setRegularizationMatrixFactor" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
+      <a id="setRegularizationMatrixFactor(value:Double):RecursiveLeastSquaresFilter.this.type"></a>
+      <a id="setRegularizationMatrixFactor(Double):RecursiveLeastSquaresFilter.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setRegularizationMatrixFactor</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setRegularizationMatrixFactor(value:Double):RecursiveLeastSquaresFilter.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set regularization matrix factor, which results in setting the regularization matrix as
+factor * identity matrix.</p>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformerParams#setStateKeyCol" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setStateKeyCol(value:String):ImplType"></a>
+      <a id="setStateKeyCol(String):RecursiveLeastSquaresFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setStateKeyCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setStateKeyCol(value:String):ImplType" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Sets the state key column.</p><div class="fullcomment"><div class="comment cmt"><p>Sets the state key column. Each value in the column should uniquely identify a stateful transformer. Each
+unique value will result in a separate state.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>StatefulTransformerParams</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformerParams#setStateTimeoutDuration" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setStateTimeoutDuration(value:String):ImplType"></a>
+      <a id="setStateTimeoutDuration(String):RecursiveLeastSquaresFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setStateTimeoutDuration</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setStateTimeoutDuration(value:String):ImplType" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Sets the state timeout duration for all states, only valid when state timeout mode is not 'none'.</p><div class="fullcomment"><div class="comment cmt"><p>Sets the state timeout duration for all states, only valid when state timeout mode is not 'none'.
+Must be a valid duration string, such as '10 minutes'.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>StatefulTransformerParams</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformerParams#setStateTimeoutMode" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setStateTimeoutMode(value:String):ImplType"></a>
+      <a id="setStateTimeoutMode(String):RecursiveLeastSquaresFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setStateTimeoutMode</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setStateTimeoutMode(value:String):ImplType" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Sets the state timeout mode.</p><div class="fullcomment"><div class="comment cmt"><p>Sets the state timeout mode. Supported values are 'none', 'process' and 'event'. Enabling state timeout will
+clear the state after a certain timeout duration which can be set. If a state receives measurements after
+it times out, the state will be initialized as if it received no measurements.</p><p>- 'none': No state timeout, state is kept indefinitely.</p><p>- 'process': Process time based state timeout, state will be cleared if no measurements are received for
+a duration based on processing time. Effects all states. Timeout duration must be set with
+setStateTimeoutDuration.</p><p>- 'event': Event time based state timeout, state will be cleared if no measurements are recieved for a duration
+based on event time determined by watermark. Effects all states. Timeout duration must be set with
+setStateTimeoutDuration. Additionally, event time column and it's watermark duration must be set with
+setEventTimeCol and setWatermarkDuration. Note that this will result in dropping measurements occuring later
+than the watermark.</p><p>Default is 'none'</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>StatefulTransformerParams</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformerParams#setWatermarkDuration" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setWatermarkDuration(value:String):ImplType"></a>
+      <a id="setWatermarkDuration(String):RecursiveLeastSquaresFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setWatermarkDuration</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@setWatermarkDuration(value:String):ImplType" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set the watermark duration for all states, only valid when state timeout mode is 'event'.</p><div class="fullcomment"><div class="comment cmt"><p>Set the watermark duration for all states, only valid when state timeout mode is 'event'.
+Must be a valid duration string, such as '10 minutes'.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>StatefulTransformerParams</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformer#stateEncoder" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="stateEncoder:org.apache.spark.sql.Encoder[StateType]"></a>
+      <a id="stateEncoder:Encoder[RLSState]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stateEncoder</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Encoder">Encoder</span>[<span class="extype" name="com.github.ozancicek.artan.ml.state.RLSState">RLSState</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@stateEncoder:org.apache.spark.sql.Encoder[StateType]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>StatefulTransformer</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.HasStateKeyCol#stateKeyCol" visbl="pub" data-isabs="false" fullComment="yes" group="stateParam">
+      <a id="stateKeyCol:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="stateKeyCol:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stateKeyCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@stateKeyCol:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Param for state key column.</p><div class="fullcomment"><div class="comment cmt"><p>Param for state key column. State keys uniquely identify the each state in stateful transformers,
+thus controlling the number of states and the degree of parallelization&quot;</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasStateKeyCol</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#stateKeyEncoder" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="stateKeyEncoder:org.apache.spark.sql.Encoder[String]"></a>
+      <a id="stateKeyEncoder:Encoder[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stateKeyEncoder</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Encoder">Encoder</span>[<span class="extype" name="java.lang.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@stateKeyEncoder:org.apache.spark.sql.Encoder[String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#stateSize" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="stateSize:Int"></a>
+      <a id="stateSize:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stateSize</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@stateSize:Int" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Define state size equal to features vector size
+</p><div class="fullcomment"><div class="comment cmt"><p>Define state size equal to features vector size
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a> → HasInitialState</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.HasStateTimeoutDuration#stateTimeoutDuration" visbl="pub" data-isabs="false" fullComment="yes" group="stateParam">
+      <a id="stateTimeoutDuration:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="stateTimeoutDuration:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stateTimeoutDuration</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@stateTimeoutDuration:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Param for state timeout duration.</p><div class="fullcomment"><div class="comment cmt"><p>Param for state timeout duration.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasStateTimeoutDuration</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#stateUpdateSpec" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="stateUpdateSpec:com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresUpdateSpec"></a>
+      <a id="stateUpdateSpec:RecursiveLeastSquaresUpdateSpec"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stateUpdateSpec</span><span class="result">: <span class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresUpdateSpec">RecursiveLeastSquaresUpdateSpec</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@stateUpdateSpec:com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresUpdateSpec" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a> → StatefulTransformer</dd></dl></div>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.HasStateTimeoutMode#timeoutMode" visbl="pub" data-isabs="false" fullComment="yes" group="stateParam">
+      <a id="timeoutMode:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="timeoutMode:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">timeoutMode</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@timeoutMode:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Param for timeout mode, controlling the eviction of states which receive no measurement for a certain duration</p><div class="fullcomment"><div class="comment cmt"><p>Param for timeout mode, controlling the eviction of states which receive no measurement for a certain duration</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasStateTimeoutMode</dd></dl></div>
+    </li><li name="org.apache.spark.ml.util.Identifiable#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@toString():String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Identifiable → AnyRef → Any</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#transform" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="transform(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.DataFrame"></a>
+      <a id="transform(Dataset[_]):DataFrame"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">transform</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@transform(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Transforms dataset of features &amp; label to dataframe of estimated states
+</p><div class="fullcomment"><div class="comment cmt"><p>Transforms dataset of features &amp; label to dataframe of estimated states
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a> → Transformer</dd></dl></div>
+    </li><li name="org.apache.spark.ml.Transformer#transform" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="transform(dataset:org.apache.spark.sql.Dataset[_],paramMap:org.apache.spark.ml.param.ParamMap):org.apache.spark.sql.DataFrame"></a>
+      <a id="transform(Dataset[_],ParamMap):DataFrame"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">transform</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="paramMap">paramMap: <span class="extype" name="org.apache.spark.ml.param.ParamMap">ParamMap</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@transform(dataset:org.apache.spark.sql.Dataset[_],paramMap:org.apache.spark.ml.param.ParamMap):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Transformer</dd><dt>Annotations</dt><dd>
+                <span class="name">@Since</span><span class="args">(<span>
+      
+      <span class="symbol">&quot;2.0.0&quot;</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="org.apache.spark.ml.Transformer#transform" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="transform(dataset:org.apache.spark.sql.Dataset[_],firstParamPair:org.apache.spark.ml.param.ParamPair[_],otherParamPairs:org.apache.spark.ml.param.ParamPair[_]*):org.apache.spark.sql.DataFrame"></a>
+      <a id="transform(Dataset[_],ParamPair[_],ParamPair[_]*):DataFrame"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">transform</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="firstParamPair">firstParamPair: <span class="extype" name="org.apache.spark.ml.param.ParamPair">ParamPair</span>[_]</span>, <span name="otherParamPairs">otherParamPairs: <span class="extype" name="org.apache.spark.ml.param.ParamPair">ParamPair</span>[_]*</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@transform(dataset:org.apache.spark.sql.Dataset[_],firstParamPair:org.apache.spark.ml.param.ParamPair[_],otherParamPairs:org.apache.spark.ml.param.ParamPair[_]*):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Transformer</dd><dt>Annotations</dt><dd>
+                <span class="name">@Since</span><span class="args">(<span>
+      
+      <span class="symbol">&quot;2.0.0&quot;</span>
+    </span>)</span>
+              
+                <span class="name">@varargs</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#transformSchema" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="transformSchema(schema:org.apache.spark.sql.types.StructType):org.apache.spark.sql.types.StructType"></a>
+      <a id="transformSchema(StructType):StructType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">transformSchema</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@transformSchema(schema:org.apache.spark.sql.types.StructType):org.apache.spark.sql.types.StructType" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Applies the transformation to dataset schema
+</p><div class="fullcomment"><div class="comment cmt"><p>Applies the transformation to dataset schema
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a> → PipelineStage</dd></dl></div>
+    </li><li name="org.apache.spark.ml.PipelineStage#transformSchema" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="transformSchema(schema:org.apache.spark.sql.types.StructType,logging:Boolean):org.apache.spark.sql.types.StructType"></a>
+      <a id="transformSchema(StructType,Boolean):StructType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">transformSchema</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>, <span name="logging">logging: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@transformSchema(schema:org.apache.spark.sql.types.StructType,logging:Boolean):org.apache.spark.sql.types.StructType" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>PipelineStage</dd><dt>Annotations</dt><dd>
+                <span class="name">@DeveloperApi</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformer#transformWithState" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="transformWithState(in:org.apache.spark.sql.DataFrame)(implicitkeyEncoder:org.apache.spark.sql.Encoder[GroupKeyType]):org.apache.spark.sql.Dataset[OutType]"></a>
+      <a id="transformWithState(DataFrame)(Encoder[String]):Dataset[RLSOutput]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">transformWithState</span><span class="params">(<span name="in">in: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="keyEncoder">keyEncoder: <span class="extype" name="org.apache.spark.sql.Encoder">Encoder</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[<a href="../state/RLSOutput.html" class="extype" name="com.github.ozancicek.artan.ml.state.RLSOutput">RLSOutput</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@transformWithState(in:org.apache.spark.sql.DataFrame)(implicitkeyEncoder:org.apache.spark.sql.Encoder[GroupKeyType]):org.apache.spark.sql.Dataset[OutType]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>StatefulTransformer</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#uid" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="uid:String"></a>
+      <a id="uid:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">uid</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@uid:String" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a> → Identifiable</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.StatefulTransformer#validateWatermarkColumns" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="validateWatermarkColumns(schema:org.apache.spark.sql.types.StructType):Unit"></a>
+      <a id="validateWatermarkColumns(StructType):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">validateWatermarkColumns</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@validateWatermarkColumns(schema:org.apache.spark.sql.types.StructType):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>StatefulTransformer</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.HasWatermarkDuration#watermarkDuration" visbl="pub" data-isabs="false" fullComment="yes" group="stateParam">
+      <a id="watermarkDuration:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="watermarkDuration:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">watermarkDuration</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter@watermarkDuration:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Param for watermark duration as string, measured from the <a href="#eventTimeCol:org.apache.spark.ml.param.Param[String]" class="extmbr" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#eventTimeCol">eventTimeCol</a> column.</p><div class="fullcomment"><div class="comment cmt"><p>Param for watermark duration as string, measured from the <a href="#eventTimeCol:org.apache.spark.ml.param.Param[String]" class="extmbr" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter#eventTimeCol">eventTimeCol</a> column. If set, measurements will
+be processed in append mode with the specified watermark duration.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasWatermarkDuration</dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrixCol">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrixCol">HasRegularizationMatrixCol</span></h3>
+            </div><div class="parent" name="com.github.ozancicek.artan.ml.filter.HasInitialStateCol">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasInitialStateCol">HasInitialStateCol</span></h3>
+            </div><div class="parent" name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrix">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasRegularizationMatrix">HasRegularizationMatrix</span></h3>
+            </div><div class="parent" name="com.github.ozancicek.artan.ml.filter.HasInitialState">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasInitialState">HasInitialState</span></h3>
+            </div><div class="parent" name="com.github.ozancicek.artan.ml.filter.HasForgettingFactor">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.filter.HasForgettingFactor">HasForgettingFactor</span></h3>
+            </div><div class="parent" name="org.apache.spark.ml.param.shared.HasFeaturesCol">
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.param.shared.HasFeaturesCol">HasFeaturesCol</span></h3>
+            </div><div class="parent" name="org.apache.spark.ml.param.shared.HasLabelCol">
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.param.shared.HasLabelCol">HasLabelCol</span></h3>
+            </div><div class="parent" name="com.github.ozancicek.artan.ml.state.StatefulTransformer">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.state.StatefulTransformer">StatefulTransformer</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.github.ozancicek.artan.ml.state.RLSInput">RLSInput</span>, <span class="extype" name="com.github.ozancicek.artan.ml.state.RLSState">RLSState</span>, <a href="../state/RLSOutput.html" class="extype" name="com.github.ozancicek.artan.ml.state.RLSOutput">RLSOutput</a>, <a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>]</h3>
+            </div><div class="parent" name="com.github.ozancicek.artan.ml.state.StatefulTransformerParams">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.state.StatefulTransformerParams">StatefulTransformerParams</span>[<a href="" class="extype" name="com.github.ozancicek.artan.ml.filter.RecursiveLeastSquaresFilter">RecursiveLeastSquaresFilter</a>, <span class="extype" name="scala.Predef.String">String</span>]</h3>
+            </div><div class="parent" name="com.github.ozancicek.artan.ml.state.HasStateTimeoutDuration">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.state.HasStateTimeoutDuration">HasStateTimeoutDuration</span></h3>
+            </div><div class="parent" name="com.github.ozancicek.artan.ml.state.HasStateKeyCol">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.state.HasStateKeyCol">HasStateKeyCol</span>[<span class="extype" name="scala.Predef.String">String</span>]</h3>
+            </div><div class="parent" name="com.github.ozancicek.artan.ml.state.HasWatermarkDuration">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.state.HasWatermarkDuration">HasWatermarkDuration</span></h3>
+            </div><div class="parent" name="com.github.ozancicek.artan.ml.state.HasEventTimeCol">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.state.HasEventTimeCol">HasEventTimeCol</span></h3>
+            </div><div class="parent" name="com.github.ozancicek.artan.ml.state.HasStateTimeoutMode">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.state.HasStateTimeoutMode">HasStateTimeoutMode</span></h3>
+            </div><div class="parent" name="org.apache.spark.ml.Transformer">
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span></h3>
+            </div><div class="parent" name="org.apache.spark.ml.PipelineStage">
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span></h3>
+            </div><div class="parent" name="org.apache.spark.internal.Logging">
+              <h3>Inherited from <span class="extype" name="org.apache.spark.internal.Logging">Logging</span></h3>
+            </div><div class="parent" name="org.apache.spark.ml.param.Params">
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.param.Params">Params</span></h3>
+            </div><div class="parent" name="scala.Serializable">
+              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="org.apache.spark.ml.util.Identifiable">
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="stateParam">
+              <h3>State Parameters</h3>
+              
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
