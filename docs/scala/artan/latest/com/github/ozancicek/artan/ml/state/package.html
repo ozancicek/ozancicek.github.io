@@ -66,7 +66,45 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.github.ozancicek.artan.ml.state.KalmanOutput" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+              <ol><li name="com.github.ozancicek.artan.ml.state.BernoulliMixtureOutput" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BernoulliMixtureOutputextendsMixtureOutput[Boolean,com.github.ozancicek.artan.ml.stats.BernoulliDistribution,com.github.ozancicek.artan.ml.stats.BernoulliMixtureDistribution]withProductwithSerializable"></a>
+      <a id="BernoulliMixtureOutput:BernoulliMixtureOutput"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="BernoulliMixtureOutput.html"><span class="name">BernoulliMixtureOutput</span></a><span class="params">(<span name="stateKey">stateKey: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="stateIndex">stateIndex: <span class="extype" name="scala.Long">Long</span></span>, <span name="mixtureModel">mixtureModel: <a href="../stats/BernoulliMixtureDistribution.html" class="extype" name="com.github.ozancicek.artan.ml.stats.BernoulliMixtureDistribution">BernoulliMixtureDistribution</a></span>, <span name="eventTime">eventTime: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.sql.Timestamp">Timestamp</span>]</span>, <span name="loglikelihood">loglikelihood: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result"> extends <span class="extype" name="com.github.ozancicek.artan.ml.state.MixtureOutput">MixtureOutput</span>[<span class="extype" name="scala.Boolean">Boolean</span>, <a href="../stats/BernoulliDistribution.html" class="extype" name="com.github.ozancicek.artan.ml.stats.BernoulliDistribution">BernoulliDistribution</a>, <a href="../stats/BernoulliMixtureDistribution.html" class="extype" name="com.github.ozancicek.artan.ml.stats.BernoulliMixtureDistribution">BernoulliMixtureDistribution</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.state.package@BernoulliMixtureOutputextendsMixtureOutput[Boolean,com.github.ozancicek.artan.ml.stats.BernoulliDistribution,com.github.ozancicek.artan.ml.stats.BernoulliMixtureDistribution]withProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Case class representing the output of a bernoulli mixture estimation
+</p><div class="fullcomment"><div class="comment cmt"><p>Case class representing the output of a bernoulli mixture estimation
+</p></div><dl class="paramcmts block"><dt class="param">stateKey</dt><dd class="cmt"><p>Key of the state</p></dd><dt class="param">stateIndex</dt><dd class="cmt"><p>index of the filter, incremented on each minibatch of samples</p></dd><dt class="param">mixtureModel</dt><dd class="cmt"><p>mixture model estimation with weights and distributions</p></dd><dt class="param">eventTime</dt><dd class="cmt"><p>event time of the input measurement</p></dd><dt class="param">loglikelihood</dt><dd class="cmt"><p>likelihood of samples processed at this state (not cumulative)</p></dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.GaussianMixtureOutput" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="GaussianMixtureOutputextendsMixtureOutput[org.apache.spark.ml.linalg.Vector,com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution,com.github.ozancicek.artan.ml.stats.GaussianMixtureDistribution]withProductwithSerializable"></a>
+      <a id="GaussianMixtureOutput:GaussianMixtureOutput"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="GaussianMixtureOutput.html"><span class="name">GaussianMixtureOutput</span></a><span class="params">(<span name="stateKey">stateKey: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="stateIndex">stateIndex: <span class="extype" name="scala.Long">Long</span></span>, <span name="mixtureModel">mixtureModel: <a href="../stats/GaussianMixtureDistribution.html" class="extype" name="com.github.ozancicek.artan.ml.stats.GaussianMixtureDistribution">GaussianMixtureDistribution</a></span>, <span name="eventTime">eventTime: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.sql.Timestamp">Timestamp</span>]</span>, <span name="loglikelihood">loglikelihood: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result"> extends <span class="extype" name="com.github.ozancicek.artan.ml.state.MixtureOutput">MixtureOutput</span>[<span class="extype" name="org.apache.spark.ml.linalg.Vector">Vector</span>, <a href="../stats/MultivariateGaussianDistribution.html" class="extype" name="com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution">MultivariateGaussianDistribution</a>, <a href="../stats/GaussianMixtureDistribution.html" class="extype" name="com.github.ozancicek.artan.ml.stats.GaussianMixtureDistribution">GaussianMixtureDistribution</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.state.package@GaussianMixtureOutputextendsMixtureOutput[org.apache.spark.ml.linalg.Vector,com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution,com.github.ozancicek.artan.ml.stats.GaussianMixtureDistribution]withProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Case class representing the output of a gaussian mixture estimation
+</p><div class="fullcomment"><div class="comment cmt"><p>Case class representing the output of a gaussian mixture estimation
+</p></div><dl class="paramcmts block"><dt class="param">stateKey</dt><dd class="cmt"><p>Key of the state</p></dd><dt class="param">stateIndex</dt><dd class="cmt"><p>index of the filter, incremented on each minibatch of samples</p></dd><dt class="param">mixtureModel</dt><dd class="cmt"><p>mixture model estimation with weights and distributions</p></dd><dt class="param">eventTime</dt><dd class="cmt"><p>event time of the input measurement</p></dd><dt class="param">loglikelihood</dt><dd class="cmt"><p>likelihood of samples processed at this state (not cumulative)</p></dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.KalmanOutput" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="KalmanOutputextendsKeyedOutput[String]withProductwithSerializable"></a>
       <a id="KalmanOutput:KalmanOutput"></a>
       <h4 class="signature">
@@ -103,6 +141,25 @@ z_k, where x_k and z_k are vectors of lenght n_state and n_obs</p></div><dl clas
     </span>
       <p class="shortcomment cmt">Case class for the output state of a least mean squares filter.</p><div class="fullcomment"><div class="comment cmt"><p>Case class for the output state of a least mean squares filter.
 </p></div><dl class="paramcmts block"><dt class="param">stateKey</dt><dd class="cmt"><p>Key of the filter.</p></dd><dt class="param">stateIndex</dt><dd class="cmt"><p>Index of state.</p></dd><dt class="param">state</dt><dd class="cmt"><p>State vector.</p></dd><dt class="param">eventTime</dt><dd class="cmt"><p>event time of the of the output</p></dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.state.PoissonMixtureOutput" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="PoissonMixtureOutputextendsMixtureOutput[Long,com.github.ozancicek.artan.ml.stats.PoissonDistribution,com.github.ozancicek.artan.ml.stats.PoissonMixtureDistribution]withProductwithSerializable"></a>
+      <a id="PoissonMixtureOutput:PoissonMixtureOutput"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="PoissonMixtureOutput.html"><span class="name">PoissonMixtureOutput</span></a><span class="params">(<span name="stateKey">stateKey: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="stateIndex">stateIndex: <span class="extype" name="scala.Long">Long</span></span>, <span name="mixtureModel">mixtureModel: <a href="../stats/PoissonMixtureDistribution.html" class="extype" name="com.github.ozancicek.artan.ml.stats.PoissonMixtureDistribution">PoissonMixtureDistribution</a></span>, <span name="eventTime">eventTime: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.sql.Timestamp">Timestamp</span>]</span>, <span name="loglikelihood">loglikelihood: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result"> extends <span class="extype" name="com.github.ozancicek.artan.ml.state.MixtureOutput">MixtureOutput</span>[<span class="extype" name="scala.Long">Long</span>, <a href="../stats/PoissonDistribution.html" class="extype" name="com.github.ozancicek.artan.ml.stats.PoissonDistribution">PoissonDistribution</a>, <a href="../stats/PoissonMixtureDistribution.html" class="extype" name="com.github.ozancicek.artan.ml.stats.PoissonMixtureDistribution">PoissonMixtureDistribution</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.state.package@PoissonMixtureOutputextendsMixtureOutput[Long,com.github.ozancicek.artan.ml.stats.PoissonDistribution,com.github.ozancicek.artan.ml.stats.PoissonMixtureDistribution]withProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Case class representing the output of a poisson mixture estimation
+</p><div class="fullcomment"><div class="comment cmt"><p>Case class representing the output of a poisson mixture estimation
+</p></div><dl class="paramcmts block"><dt class="param">stateKey</dt><dd class="cmt"><p>Key of the state</p></dd><dt class="param">stateIndex</dt><dd class="cmt"><p>index of the filter, incremented on each minibatch of samples</p></dd><dt class="param">mixtureModel</dt><dd class="cmt"><p>mixture model estimation with weights and distributions</p></dd><dt class="param">eventTime</dt><dd class="cmt"><p>event time of the input measurement</p></dd><dt class="param">loglikelihood</dt><dd class="cmt"><p>likelihood of samples processed at this state (not cumulative)</p></dd></dl></div>
     </li><li name="com.github.ozancicek.artan.ml.state.RLSOutput" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="RLSOutputextendsKeyedOutput[String]withProductwithSerializable"></a>
       <a id="RLSOutput:RLSOutput"></a>

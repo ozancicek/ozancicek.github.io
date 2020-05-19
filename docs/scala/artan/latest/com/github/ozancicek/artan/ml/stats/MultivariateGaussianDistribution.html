@@ -1,22 +1,22 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>LAPACK - org.apache.spark.ml.LAPACK</title>
-          <meta name="description" content="LAPACK - org.apache.spark.ml.LAPACK" />
-          <meta name="keywords" content="LAPACK org.apache.spark.ml.LAPACK" />
+          <title>MultivariateGaussianDistribution - com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution</title>
+          <meta name="description" content="MultivariateGaussianDistribution - com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution" />
+          <meta name="keywords" content="MultivariateGaussianDistribution com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
-      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
-      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
-      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
-      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
-      <script type="text/javascript" src="../../../../lib/template.js"></script>
-      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
+      <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/tools.tooltip.js"></script>
       
       <script type="text/javascript">
          if(top === self) {
-            var url = '../../../../index.html';
-            var hash = 'org.apache.spark.ml.LAPACK$';
+            var url = '../../../../../../index.html';
+            var hash = 'com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -26,15 +26,15 @@
    	  </script>
     
         </head>
-        <body class="value">
+        <body class="type">
       <div id="definition">
-        <img alt="Object" src="../../../../lib/object_big.png" />
-        <p id="owner"><a href="../../../package.html" class="extype" name="org">org</a>.<a href="../../package.html" class="extype" name="org.apache">apache</a>.<a href="../package.html" class="extype" name="org.apache.spark">spark</a>.<a href="package.html" class="extype" name="org.apache.spark.ml">ml</a></p>
-        <h1>LAPACK</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="org.apache.spark.ml">package ml</a>
+        <img alt="Class" src="../../../../../../lib/class_big.png" />
+        <p id="owner"><a href="../../../../../package.html" class="extype" name="com">com</a>.<a href="../../../../package.html" class="extype" name="com.github">github</a>.<a href="../../../package.html" class="extype" name="com.github.ozancicek">ozancicek</a>.<a href="../../package.html" class="extype" name="com.github.ozancicek.artan">artan</a>.<a href="../package.html" class="extype" name="com.github.ozancicek.artan.ml">ml</a>.<a href="package.html" class="extype" name="com.github.ozancicek.artan.ml.stats">stats</a></p>
+        <h1>MultivariateGaussianDistribution</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="com.github.ozancicek.artan.ml.stats">package stats</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       </div>
@@ -42,16 +42,17 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">object</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">LAPACK</span>
+        <span class="name">MultivariateGaussianDistribution</span><span class="params">(<span name="mean">mean: <span class="extype" name="org.apache.spark.ml.linalg.Vector">Vector</span></span>, <span name="covariance">covariance: <span class="extype" name="org.apache.spark.ml.linalg.Matrix">Matrix</span></span>)</span><span class="result"> extends <span class="extype" name="com.github.ozancicek.artan.ml.stats.Distribution">Distribution</span>[<span class="extype" name="org.apache.spark.ml.linalg.Vector">Vector</span>, <a href="" class="extype" name="com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution">MultivariateGaussianDistribution</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Represents a multivariate gaussian distribution
+</p></div><dl class="paramcmts block"><dt class="param">mean</dt><dd class="cmt"><p>Mean vector of the distribution</p></dd><dt class="param">covariance</dt><dd class="cmt"><p>Covariance matrix of the distribution</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="com.github.ozancicek.artan.ml.stats.Distribution">Distribution</span>[<span class="extype" name="org.apache.spark.ml.linalg.Vector">Vector</span>, <a href="" class="extype" name="com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution">MultivariateGaussianDistribution</a>], <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -69,7 +70,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="org.apache.spark.ml.LAPACK"><span>LAPACK</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution"><span>MultivariateGaussianDistribution</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="com.github.ozancicek.artan.ml.stats.Distribution"><span>Distribution</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -86,7 +87,27 @@
 
       <div id="template">
         <div id="allMembers">
-        
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(mean:org.apache.spark.ml.linalg.Vector,covariance:org.apache.spark.ml.linalg.Matrix):com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution"></a>
+      <a id="&lt;init&gt;:MultivariateGaussianDistribution"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MultivariateGaussianDistribution</span><span class="params">(<span name="mean">mean: <span class="extype" name="org.apache.spark.ml.linalg.Vector">Vector</span></span>, <span name="covariance">covariance: <span class="extype" name="org.apache.spark.ml.linalg.Matrix">Matrix</span></span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@&lt;init&gt;(mean:org.apache.spark.ml.linalg.Vector,covariance:org.apache.spark.ml.linalg.Matrix):com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">mean</dt><dd class="cmt"><p>Mean vector of the distribution</p></dd><dt class="param">covariance</dt><dd class="cmt"><p>Covariance matrix of the distribution</p></dd></dl></div>
+    </li></ol>
+            </div>
 
         
 
@@ -106,8 +127,8 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@!=(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -123,8 +144,8 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@##():Int" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@##():Int" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -140,8 +161,8 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@==(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -157,8 +178,8 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@asInstanceOf[T0]:T0" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
@@ -174,85 +195,34 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@clone():Object" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@clone():Object" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="org.apache.spark.ml.LAPACK#dgels" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="dgels(a:org.apache.spark.ml.linalg.DenseMatrix,b:org.apache.spark.ml.linalg.DenseVector):org.apache.spark.ml.linalg.DenseVector"></a>
-      <a id="dgels(DenseMatrix,DenseVector):DenseVector"></a>
+    </li><li name="com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution#covariance" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="covariance:org.apache.spark.ml.linalg.Matrix"></a>
+      <a id="covariance:Matrix"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">dgels</span><span class="params">(<span name="a">a: <span class="extype" name="org.apache.spark.ml.linalg.DenseMatrix">DenseMatrix</span></span>, <span name="b">b: <span class="extype" name="org.apache.spark.ml.linalg.DenseVector">DenseVector</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.ml.linalg.DenseVector">DenseVector</span></span>
+        <span class="name">covariance</span><span class="result">: <span class="extype" name="org.apache.spark.ml.linalg.Matrix">Matrix</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@dgels(a:org.apache.spark.ml.linalg.DenseMatrix,b:org.apache.spark.ml.linalg.DenseVector):org.apache.spark.ml.linalg.DenseVector" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@covariance:org.apache.spark.ml.linalg.Matrix" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="org.apache.spark.ml.LAPACK#dgesdd" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="dgesdd(a:org.apache.spark.ml.linalg.DenseMatrix,u:org.apache.spark.ml.linalg.DenseMatrix,s:org.apache.spark.ml.linalg.DenseVector,v:org.apache.spark.ml.linalg.DenseMatrix):Unit"></a>
-      <a id="dgesdd(DenseMatrix,DenseMatrix,DenseVector,DenseMatrix):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">dgesdd</span><span class="params">(<span name="a">a: <span class="extype" name="org.apache.spark.ml.linalg.DenseMatrix">DenseMatrix</span></span>, <span name="u">u: <span class="extype" name="org.apache.spark.ml.linalg.DenseMatrix">DenseMatrix</span></span>, <span name="s">s: <span class="extype" name="org.apache.spark.ml.linalg.DenseVector">DenseVector</span></span>, <span name="v">v: <span class="extype" name="org.apache.spark.ml.linalg.DenseMatrix">DenseMatrix</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@dgesdd(a:org.apache.spark.ml.linalg.DenseMatrix,u:org.apache.spark.ml.linalg.DenseMatrix,s:org.apache.spark.ml.linalg.DenseVector,v:org.apache.spark.ml.linalg.DenseMatrix):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="org.apache.spark.ml.LAPACK#dgesv" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="dgesv(a:org.apache.spark.ml.linalg.DenseMatrix,b:org.apache.spark.ml.linalg.DenseMatrix):Unit"></a>
-      <a id="dgesv(DenseMatrix,DenseMatrix):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">dgesv</span><span class="params">(<span name="a">a: <span class="extype" name="org.apache.spark.ml.linalg.DenseMatrix">DenseMatrix</span></span>, <span name="b">b: <span class="extype" name="org.apache.spark.ml.linalg.DenseMatrix">DenseMatrix</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@dgesv(a:org.apache.spark.ml.linalg.DenseMatrix,b:org.apache.spark.ml.linalg.DenseMatrix):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="org.apache.spark.ml.LAPACK#dpotrf" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="dpotrf(a:org.apache.spark.ml.linalg.DenseMatrix):Unit"></a>
-      <a id="dpotrf(DenseMatrix):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">dpotrf</span><span class="params">(<span name="a">a: <span class="extype" name="org.apache.spark.ml.linalg.DenseMatrix">DenseMatrix</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@dpotrf(a:org.apache.spark.ml.linalg.DenseMatrix):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
+      <p class="shortcomment cmt">Covariance matrix of the distribution</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -265,28 +235,11 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="equals(x$1:Any):Boolean"></a>
-      <a id="equals(Any):Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@equals(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -299,11 +252,11 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@finalize():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="symbol">classOf[java.lang.Throwable]</span>
@@ -322,25 +275,8 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@getClass():Class[_]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hashCode():Int"></a>
-      <a id="hashCode():Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@hashCode():Int" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -356,28 +292,47 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="org.apache.spark.ml.LAPACK#lowerTriangle" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="lowerTriangle(a:org.apache.spark.ml.linalg.DenseMatrix):Unit"></a>
-      <a id="lowerTriangle(DenseMatrix):Unit"></a>
+    </li><li name="com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution#loglikelihoods" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="loglikelihoods(samples:Seq[org.apache.spark.ml.linalg.Vector]):Seq[Double]"></a>
+      <a id="loglikelihoods(Seq[Vector]):Seq[Double]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">lowerTriangle</span><span class="params">(<span name="a">a: <span class="extype" name="org.apache.spark.ml.linalg.DenseMatrix">DenseMatrix</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">loglikelihoods</span><span class="params">(<span name="samples">samples: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.apache.spark.ml.linalg.Vector">Vector</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Double">Double</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@lowerTriangle(a:org.apache.spark.ml.linalg.DenseMatrix):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@loglikelihoods(samples:Seq[org.apache.spark.ml.linalg.Vector]):Seq[Double]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Returns the logpdf of sample sequence
+</p><div class="fullcomment"><div class="comment cmt"><p>Returns the logpdf of sample sequence
+</p></div><dl class="paramcmts block"><dt class="param">samples</dt><dd class="cmt"><p>gaussian sample sequence</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution">MultivariateGaussianDistribution</a> → Distribution</dd></dl></div>
+    </li><li name="com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution#mean" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="mean:org.apache.spark.ml.linalg.Vector"></a>
+      <a id="mean:Vector"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mean</span><span class="result">: <span class="extype" name="org.apache.spark.ml.linalg.Vector">Vector</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@mean:org.apache.spark.ml.linalg.Vector" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Mean vector of the distribution</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -390,8 +345,8 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -407,8 +362,8 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@notify():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -424,8 +379,8 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@notifyAll():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -441,45 +396,11 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="toString():String"></a>
-      <a id="toString():String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@toString():String" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="org.apache.spark.ml.LAPACK#upperTriangle" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="upperTriangle(a:org.apache.spark.ml.linalg.DenseMatrix):Unit"></a>
-      <a id="upperTriangle(DenseMatrix):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">upperTriangle</span><span class="params">(<span name="a">a: <span class="extype" name="org.apache.spark.ml.linalg.DenseMatrix">DenseMatrix</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@upperTriangle(a:org.apache.spark.ml.linalg.DenseMatrix):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -492,8 +413,8 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@wait():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -515,8 +436,8 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -538,8 +459,8 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#org.apache.spark.ml.LAPACK$@wait(x$1:Long):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../../index.html#com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -558,7 +479,17 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="scala.Serializable">
+              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="com.github.ozancicek.artan.ml.stats.Distribution">
+              <h3>Inherited from <span class="extype" name="com.github.ozancicek.artan.ml.stats.Distribution">Distribution</span>[<span class="extype" name="org.apache.spark.ml.linalg.Vector">Vector</span>, <a href="" class="extype" name="com.github.ozancicek.artan.ml.stats.MultivariateGaussianDistribution">MultivariateGaussianDistribution</a>]</h3>
+            </div><div class="parent" name="scala.Product">
+              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
@@ -568,7 +499,7 @@
 
         <div id="groupedMembers">
         <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+              <h3>Members</h3>
               
             </div>
         </div>
